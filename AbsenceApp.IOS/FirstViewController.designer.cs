@@ -13,6 +13,10 @@ namespace AbsenceApp.IOS
     [Register ("FirstViewController")]
     partial class FirstViewController
     {
+        [Action ("UIButton287_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void UIButton287_TouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
         }

@@ -13,6 +13,10 @@ namespace AbsenceApp.IOS
     [Register ("SecondViewController")]
     partial class SecondViewController
     {
+        [Action ("UIButton569_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void UIButton569_TouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
         }
