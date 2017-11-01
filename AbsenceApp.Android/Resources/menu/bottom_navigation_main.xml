@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+      android:id="@+id/menu_check_in"
+      android:enabled="true"
+      android:title="Check-in" />
+  <item
+      android:id="@+id/menu_absence"
+      android:enabled="true"
+      android:title="Absence"/>
+ 
+  <item
+      android:id="@+id/menu_history"
+      android:enabled="true"
+      android:title="History"/>
+</menu>
