@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using Google.Maps;
 
 namespace AbsenceApp.IOS
 {
@@ -9,6 +10,7 @@ namespace AbsenceApp.IOS
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate
 	{
+        const string MapsApiKey = "AIzaSyC3m5JUffgX325b7leA8a_OtAuQuHILkg0";
 		// class-level declarations
 
 		public override UIWindow Window {
@@ -18,6 +20,7 @@ namespace AbsenceApp.IOS
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
+            MapServices.ProvideAPIKey(MapsApiKey);
             // Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
 
