@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using Xamarin.Forms;
 
 namespace AbsenceApp.Pages
 {
-    public class HistoryPage : ContentPage
+    public partial class HistoryPage : ContentPage
     {
         public HistoryPage()
         {
+            InitializeComponent();
             Title = "History";
             Content = new StackLayout
             {

@@ -1,13 +1,16 @@
 ﻿using System;
-using Xamarin.Forms;
+using System.Collections.Generic;
+
 using Xamarin.Forms.Maps;
+using Xamarin.Forms;
 
 namespace AbsenceApp.Pages
 {
-    public class CheckInPage : ContentPage
+    public partial class CheckInPage : ContentPage
     {
         public CheckInPage()
         {
+            InitializeComponent();
             Title = "Check-In";
             var map = new Map(
             MapSpan.FromCenterAndRadius(
