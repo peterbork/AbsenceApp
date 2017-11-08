@@ -10,8 +10,8 @@ namespace AbsenceApp.Pages
             var navigationPage = new NavigationPage(new CheckInPage());
             navigationPage.Title = "Check-in";
             Children.Add(navigationPage);
-            Children.Add(new HistoryPage());
             Children.Add(new AbsencePage());
+            Children.Add(new HistoryPage());
         }
     }
 }
