@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbsenceApp", "AbsenceApp\AbsenceApp.csproj", "{87D68237-68DA-46BB-A359-5AB16526DA2F}"
 EndProject
@@ -10,9 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbsenceApp.Droid", "Droid\AbsenceApp.Droid.csproj", "{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		AbsenceApp\AbsenceApp.projitems*{d2d0b302-2cb1-4dbc-a561-c05ff96b043f}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|iPhone = Ad-Hoc|iPhone
@@ -90,6 +87,7 @@ Global
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.AppStore|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{6F2BD2E7-BDC8-42C0-9822-A3F76D9FB9D1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
