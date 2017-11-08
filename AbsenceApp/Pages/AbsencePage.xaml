@@ -1,16 +1,23 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AbsenceApp.Pages.AbsencePage">
     <ContentPage.Content>
         <StackLayout Margin="20" Spacing="10">
+            
             <Label Text="From" FontSize="Default"></Label>
-            <DatePicker/>
-            <TimePicker/>
+            <DatePicker x:Name="FromDate"/>
+            <TimePicker x:Name="FromTime"/>
+            
             <Label Text="To" FontSize="Default"></Label>
-            <DatePicker/>
-            <TimePicker/>
+            <DatePicker x:Name="ToDate"/>
+            <TimePicker x:Name="ToTime"/>
+            
             <Label Text="Reason"/>
-            <Editor HeightRequest="100"/>
-            <Button Text="Submit"/>
+            <Editor HeightRequest="100" x:Name="Reason"/>
+
+            <Button Text="SUBMIT ABSENCE" Clicked="SubmitAbsence"
+                    BackgroundColor="#006E79"
+                    TextColor="White"
+                    FontAttributes="Bold"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
