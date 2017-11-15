@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AbsenceApp.Pages.AbsencePage">
     <ContentPage.Content>
-        <StackLayout Margin="20" Spacing="10">
+        <StackLayout BackgroundColor="#f1f1f1" Padding="20" Spacing="10">
             
             <Label Text="From" FontSize="Default"></Label>
             <DatePicker x:Name="FromDate"/>
@@ -12,12 +12,13 @@
             <TimePicker x:Name="ToTime"/>
             
             <Label Text="Reason"/>
-            <Editor HeightRequest="100" x:Name="Reason"/>
+            <Editor HeightRequest="100" x:Name="Reason" />
 
             <Button Text="SUBMIT ABSENCE" Clicked="SubmitAbsence"
                     BackgroundColor="#006E79"
                     TextColor="White"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    Margin="0,10,0,0"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -40,6 +40,7 @@
     <Compile Include="Pages\AbsencePage.xaml.cs">
       <DependentUpon>AbsencePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Absence.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
