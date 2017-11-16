@@ -13,10 +13,11 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                 <Label Text="Automatic Check-in"></Label>
-                <Switch HorizontalOptions="EndAndExpand"></Switch>
+                <Switch Toggled="Handle_Toggled" x:Name="automaticOn" HorizontalOptions="EndAndExpand"></Switch>
             </StackLayout>
             <StackLayout Padding="20" Spacing="10">
-                <Button Text="CHECK-IN"
+                <Button Clicked="CheckInButtonCLicked"
+                        Text="CHECK-IN"
                         BackgroundColor="#006E79"
                         TextColor="White"
                         FontAttributes="Bold"

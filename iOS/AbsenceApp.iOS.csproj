@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="GetMyLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AbsenceApp\AbsenceApp.csproj">
