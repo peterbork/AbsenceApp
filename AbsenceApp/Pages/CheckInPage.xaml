@@ -7,11 +7,11 @@
             IsShowingUser="true" 
             MapType="Hybrid"
         />
-            <StackLayout Orientation="Horizontal" Spacing="10" Padding="15, 15, 15, 0">
+            <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                 <Label Text="Current Location"></Label>
                 <Label Text="Unknown" FontAttributes="Bold" HorizontalOptions="EndAndExpand"></Label>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" Spacing="10" Padding="15, 15, 15, 0">
+            <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                 <Label Text="Automatic Check-in"></Label>
                 <Switch HorizontalOptions="EndAndExpand"></Switch>
             </StackLayout>
