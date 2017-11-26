@@ -15,8 +15,12 @@
                 <Label Text="Automatic Check-in"></Label>
                 <Switch Toggled="Handle_Toggled" x:Name="automaticOn" HorizontalOptions="EndAndExpand"></Switch>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
+                <Label Text="At school"></Label>
+                <Switch x:Name="atSchool" HorizontalOptions="EndAndExpand"></Switch>
+            </StackLayout>
             <StackLayout Padding="20" Spacing="10">
-                <Button Clicked="CheckInButtonCLicked"
+                <Button Clicked="CheckInButtonClicked"
                         Text="CHECK-IN"
                         BackgroundColor="#006E79"
                         TextColor="White"

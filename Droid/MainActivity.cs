@@ -17,6 +17,7 @@ namespace AbsenceApp.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            //RequestWindowFeature(WindowFeatures.NoTitle);
 
             base.OnCreate(bundle);
 
