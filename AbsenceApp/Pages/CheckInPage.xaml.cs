@@ -19,8 +19,18 @@ namespace AbsenceApp.Pages
         public CheckInPage()
         {
             InitializeComponent();
-            //Title = "Check-In";
+            Title = "Check-In";
 
+            automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
+                if (automaticOn.IsToggled)
+                {
+                    Device.StartTimer(TimeSpan.FromSeconds(5), () => {
+                        GetLocation();
+                        //LogLocation();
+                        return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
+                    });
+                }
+            };
 
             ealLocation = new Position(55.403458, 10.3771453); // Latitude, Longitude
             var pin = new Pin {
@@ -38,24 +48,30 @@ namespace AbsenceApp.Pages
 
         async void LogLocation() {
             var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 50;
 
-            var position = await locator.GetLastKnownLocationAsync();
+            if(locator.IsGeolocationEnabled) {
+                locator.DesiredAccuracy = 100;
 
-            Debug.WriteLine("Position Status: {0}", position.Timestamp);
-            Debug.WriteLine("Position Latitude: {0}", position.Latitude);
-            Debug.WriteLine("Position Longitude: {0}", position.Longitude);
-        }
-
-        void Handle_Toggled(object sender, ToggledEventArgs e) {
-            if(e.Value){
-                Device.StartTimer(TimeSpan.FromSeconds(5), () => {
-                    GetLocation();
-                    LogLocation();
-                    return e.Value; // should be only be true, when classes are active. or switch is turned on
-                });
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
+                Debug.WriteLine("Position Status: {0}", position.Timestamp);
+                Debug.WriteLine("Position Latitude: {0}", position.Latitude);
+                Debug.WriteLine("Position Longitude: {0}", position.Longitude);
+            } else {
+                Debug.WriteLine("Not enabled");
             }
         }
+
+
+
+        //void Handle_Toggled(object sender, ToggledEventArgs e) {
+        //    if(automaticOn.IsToggled){
+        //        Device.StartTimer(TimeSpan.FromSeconds(5), () => {
+        //            GetLocation();
+        //            //LogLocation();
+        //            return e.Value; // should be only be true, when classes are active. or switch is turned on
+        //        });
+        //    }
+        //}
 
         async void CheckInButtonClicked(object sender, System.EventArgs e) {
             GetLocation();

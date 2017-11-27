@@ -13,7 +13,7 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                 <Label Text="Automatic Check-in"></Label>
-                <Switch Toggled="Handle_Toggled" x:Name="automaticOn" HorizontalOptions="EndAndExpand"></Switch>
+                <Switch x:Name="automaticOn" HorizontalOptions="EndAndExpand"></Switch>
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                 <Label Text="At school"></Label>
