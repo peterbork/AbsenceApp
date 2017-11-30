@@ -42,9 +42,13 @@
     </Compile>
     <Compile Include="Absence.cs" />
     <Compile Include="ILocation.cs" />
+    <Compile Include="Models\AbsenceMessage.cs" />
+    <Compile Include="Models\Attendances.cs" />
+    <Compile Include="Models\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Plugin.Geolocator.Abstractions">
