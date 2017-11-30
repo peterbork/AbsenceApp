@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using AbsenceApp.Controllers;
+using AbsenceApp.Models;
 
 namespace AbsenceApp.Pages
 {
@@ -12,15 +14,18 @@ namespace AbsenceApp.Pages
             Title = "Absence";
         }
         void SubmitAbsence(object sender, System.EventArgs e) {
-            var FromDate = this.FromDate.Date.ToString();
-            var FromTime = this.FromTime.Time.ToString();
+            var user_id = 1; // hard coded for now
 
-            var ToDate = this.ToDate.Date.ToString();
-            var ToTime = this.ToTime.Time.ToString();
+            AbsenceMessage message = new AbsenceMessage();
+            message.user_id = user_id;
+            message.message = this.Reason.Text;
+            message.started_at = this.FromDate.Date + this.FromTime.Time;
+            message.ended_at = this.ToDate.Date + this.ToTime.Time;
 
-            var Reason = this.Reason.Text;
+            AbsenceMessageController controller = new AbsenceMessageController();
+            controller.Add(message);
 
-            DisplayAlert("Absence submitted!", "From: " + FromDate + " " + FromTime + ", To: " + ToDate + " " +  ToTime + ". Reason: " + Reason + "!", "OK");
+            DisplayAlert("Message sent", "Your message has been sent to the administration.", "OK");
         }
     }
 }
