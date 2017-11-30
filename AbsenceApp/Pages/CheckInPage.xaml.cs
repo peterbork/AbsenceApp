@@ -6,18 +6,11 @@ using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Threading.Tasks;
 using System.Diagnostics;
-<<<<<<< Updated upstream
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Newtonsoft.Json;
 using AbsenceApp.Models;
 using AbsenceApp.Controllers;
-=======
-using AbsenceApp.Geolocator;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-
->>>>>>> Stashed changes
 
 namespace AbsenceApp.Pages
 {
@@ -26,8 +19,6 @@ namespace AbsenceApp.Pages
         double lat;
         double lng;
         Position ealLocation;
-
-        Locator locator = new Locator();
 
         public CheckInPage()
         {
@@ -45,13 +36,9 @@ namespace AbsenceApp.Pages
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled)
                 {
-                    locator.StartListening();
                     Device.StartTimer(TimeSpan.FromSeconds(5), () => {
-                        //GetLocation();
-
+                        GetLocation();
                         //LogLocation();
-                        
-
                         return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
                     });
                 }
@@ -69,46 +56,22 @@ namespace AbsenceApp.Pages
             MyMap.HasZoomEnabled = true;
             MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMiles(0.3)));
 
-            
         }
 
-        async void GrantPermission()
-        {
-            try
-            {
-                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.LocationAlways);
-                if (status != PermissionStatus.Granted)
-                {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
-                    {
-                        await DisplayAlert("Need location", "Gunna need that location", "OK");
-                    }
+        async void LogLocation() {
+            var locator = CrossGeolocator.Current;
 
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-                    //Best practice to always check that the key exists
-                    if (results.ContainsKey(Permission.Location))
-                        status = results[Permission.Location];
-                }
+            if(locator.IsGeolocationEnabled) {
+                locator.DesiredAccuracy = 100;
 
-                if (status == PermissionStatus.Granted)
-                {
-                    //var results = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(10));
-                    Debug.WriteLine(Permission.LocationAlways);
-                    //LabelGeolocation.Text = "Lat: " + results.Latitude + " Long: " + results.Longitude;
-                }
-                else if (status != PermissionStatus.Unknown)
-                {
-                    await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-                //LabelGeolocation.Text = "Error: " + ex;
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
+                Debug.WriteLine("Position Status: {0}", position.Timestamp);
+                Debug.WriteLine("Position Latitude: {0}", position.Latitude);
+                Debug.WriteLine("Position Longitude: {0}", position.Longitude);
+            } else {
+                Debug.WriteLine("Not enabled");
             }
         }
-
-        
 
 
 
@@ -123,26 +86,17 @@ namespace AbsenceApp.Pages
         //}
 
         async void CheckInButtonClicked(object sender, System.EventArgs e) {
-            //GetLocation();
+            GetLocation();
             //LogLocation();
-            
-            GrantPermission();
 
-            //await locator.StartListening();
-            await locator.GetCurrentLocation();
-
-            //var position = locator.currentPosition;
-
-            //Debug.WriteLine(locator.currentPosition);
-
-            //if (!atSchool.IsToggled) {
-            //    var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
-            //    if(answer) {
-            //        CheckIn();
-            //    }
-            //} else {
-            //    CheckIn();
-            //}
+            if (!atSchool.IsToggled) {
+                var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
+                if(answer) {
+                    CheckIn();
+                }
+            } else {
+                CheckIn();
+            }
         }
 
         void CheckIn() {

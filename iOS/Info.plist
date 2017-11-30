@@ -46,8 +46,6 @@
 	<string>Can we use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We are using your location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access location when open and in the background.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
