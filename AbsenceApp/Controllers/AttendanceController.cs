@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using AbsenceApp.Models;
+using System.Text;
 
 namespace AbsenceApp.Controllers {
     public class AttendanceController {
@@ -20,7 +21,6 @@ namespace AbsenceApp.Controllers {
             string result = client.GetStringAsync(baseUrl + "attendance").Result;
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
-
     }
 }
     
