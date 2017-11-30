@@ -6,7 +6,11 @@ using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Threading.Tasks;
 using System.Diagnostics;
-
+using System.Collections.ObjectModel;
+using System.Net.Http;
+using Newtonsoft.Json;
+using AbsenceApp.Models;
+using AbsenceApp.Controllers;
 
 namespace AbsenceApp.Pages
 {
@@ -20,6 +24,14 @@ namespace AbsenceApp.Pages
         {
             InitializeComponent();
             Title = "Check-In";
+
+
+            // how to use controllers
+            //AbsenceMessageController _AbsenceMessageController = new AbsenceMessageController();
+            //var absenceMessages = _AbsenceMessageController.GetAll();
+
+            //AttendanceController _AttendanceController = new AttendanceController();
+            //var attendances = _AttendanceController.GetAll();
 
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled)

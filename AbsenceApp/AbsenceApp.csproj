@@ -43,12 +43,15 @@
     <Compile Include="Absence.cs" />
     <Compile Include="ILocation.cs" />
     <Compile Include="Models\AbsenceMessage.cs" />
-    <Compile Include="Models\Attendances.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Controllers\AbsenceMessageController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Models\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Plugin.Geolocator.Abstractions">
@@ -68,6 +71,9 @@
     </Reference>
     <Reference Include="Xamarin.Forms.Maps">
       <HintPath>..\packages\Xamarin.Forms.Maps.2.5.0.91635\lib\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
