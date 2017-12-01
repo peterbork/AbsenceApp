@@ -25,6 +25,7 @@ namespace AbsenceApp.Pages
             InitializeComponent();
             Title = "Check-In";
 
+            LocationController _locationController = new LocationController();
 
             // how to use controllers
             //AbsenceMessageController _AbsenceMessageController = new AbsenceMessageController();
@@ -36,8 +37,10 @@ namespace AbsenceApp.Pages
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled)
                 {
+                    _locationController.StartListening();
+
                     Device.StartTimer(TimeSpan.FromSeconds(5), () => {
-                        GetLocation();
+                        //GetLocation();
                         //LogLocation();
                         return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
                     });
