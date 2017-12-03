@@ -1,4 +1,5 @@
 ﻿using System;
+using AbsenceApp.Pages;
 using Xamarin.Forms;
 
 namespace AbsenceApp
