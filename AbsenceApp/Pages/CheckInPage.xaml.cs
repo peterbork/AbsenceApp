@@ -5,8 +5,12 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms;
 using Plugin.Geolocator;
 using System.Threading.Tasks;
-
-
+using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Net.Http;
+using Newtonsoft.Json;
+using AbsenceApp.Models;
+using AbsenceApp.Controllers;
 
 namespace AbsenceApp.Pages
 {
@@ -20,6 +24,28 @@ namespace AbsenceApp.Pages
         {
             InitializeComponent();
             Title = "Check-In";
+
+            LocationController _locationController = new LocationController();
+
+            // how to use controllers
+            //AbsenceMessageController _AbsenceMessageController = new AbsenceMessageController();
+            //var absenceMessages = _AbsenceMessageController.GetAll();
+
+            //AttendanceController _AttendanceController = new AttendanceController();
+            //var attendances = _AttendanceController.GetAll();
+
+            automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
+                if (automaticOn.IsToggled)
+                {
+                    _locationController.StartListening();
+
+                    Device.StartTimer(TimeSpan.FromSeconds(5), () => {
+                        //GetLocation();
+                        //LogLocation();
+                        return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
+                    });
+                }
+            };
 
             ealLocation = new Position(55.403458, 10.3771453); // Latitude, Longitude
             var pin = new Pin {
@@ -35,17 +61,49 @@ namespace AbsenceApp.Pages
 
         }
 
-        void Handle_Toggled(object sender, Xamarin.Forms.ToggledEventArgs e) {
-            if(e.Value){
-                Device.StartTimer(TimeSpan.FromSeconds(5), () => {
-                    GetLocation();
-                    return e.Value; // should be only be true, when classes are active. or switch is turned on
-                });
+        async void LogLocation() {
+            var locator = CrossGeolocator.Current;
+
+            if(locator.IsGeolocationEnabled) {
+                locator.DesiredAccuracy = 100;
+
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
+                Debug.WriteLine("Position Status: {0}", position.Timestamp);
+                Debug.WriteLine("Position Latitude: {0}", position.Latitude);
+                Debug.WriteLine("Position Longitude: {0}", position.Longitude);
+            } else {
+                Debug.WriteLine("Not enabled");
             }
         }
 
-        void CheckInButtonCLicked(object sender, System.EventArgs e) {
+
+
+        //void Handle_Toggled(object sender, ToggledEventArgs e) {
+        //    if(automaticOn.IsToggled){
+        //        Device.StartTimer(TimeSpan.FromSeconds(5), () => {
+        //            GetLocation();
+        //            //LogLocation();
+        //            return e.Value; // should be only be true, when classes are active. or switch is turned on
+        //        });
+        //    }
+        //}
+
+        async void CheckInButtonClicked(object sender, System.EventArgs e) {
             GetLocation();
+            //LogLocation();
+
+            if (!atSchool.IsToggled) {
+                var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
+                if(answer) {
+                    CheckIn();
+                }
+            } else {
+                CheckIn();
+            }
+        }
+
+        void CheckIn() {
+            Debug.WriteLine("Checking in");
         }
 
         public void GetLocation(){
@@ -58,8 +116,8 @@ namespace AbsenceApp.Pages
             };
             loc.ObtainMyLocation();
 
-            System.Diagnostics.Debug.WriteLine("lat: " + lat + " lng: " + lng);
-            System.Diagnostics.Debug.WriteLine("Distance to the school: " + GeoCodeCalc.CalcDistance(lat, lng, ealLocation.Latitude, ealLocation.Longitude, GeoCodeCalcMeasurement.Kilometers));
+            Debug.WriteLine("lat: " + lat + " lng: " + lng);
+            Debug.WriteLine("Distance to the school: " + GeoCodeCalc.CalcDistance(lat, lng, ealLocation.Latitude, ealLocation.Longitude, GeoCodeCalcMeasurement.Kilometers));
         }
 
 
