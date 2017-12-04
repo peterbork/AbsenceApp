@@ -20,5 +20,24 @@ namespace AbsenceApp.iOS
             return base.FinishedLaunching(app, options);
 
         }
+
+        // Runs when the activation transitions from running in the background to
+        // being the foreground application.
+        // Also gets hit on app startup
+        public override void OnActivated(UIApplication application)
+        {
+            Console.WriteLine("App is becoming active");
+        }
+
+        public override void OnResignActivation(UIApplication application)
+        {
+            Console.WriteLine("App moving to inactive state.");
+        }
+
+        public override void DidEnterBackground(UIApplication application)
+        {
+            Console.WriteLine("App entering background state.");
+            Console.WriteLine("Now receiving location updates in the background");
+        }
     }
 }

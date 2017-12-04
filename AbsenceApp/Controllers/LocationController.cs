@@ -8,6 +8,7 @@ using Plugin.Geolocator.Abstractions;
 using System.Diagnostics;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Xamarin.Forms;
 
 namespace AbsenceApp.Controllers
 {
@@ -51,28 +52,35 @@ namespace AbsenceApp.Controllers
 
         public async Task StartListening()
         {
-            if (CrossGeolocator.Current.IsListening)
-                return;
+            // If iOS
+            if (Device.RuntimePlatform == Device.iOS) {
+                Debug.WriteLine("iOS detected");
+                
+            } else {
+                // If Android
+                if (CrossGeolocator.Current.IsListening)
+                    return;
 
-            ///This logic will run on the background automatically on iOS, however for Android and UWP you must put logic in background services. Else if your app is killed the location updates will be killed.
-            await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(5), 10, true, new ListenerSettings
-            {
-                //ActivityType = ActivityType.AutomotiveNavigation,
+                ///This logic will run on the background automatically on iOS, however for Android and UWP you must put logic in background services. Else if your app is killed the location updates will be killed.
+                await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(5), 10, true, new ListenerSettings
+                {
+                    //ActivityType = ActivityType.AutomotiveNavigation,
 
-                // Causes permission error when set to true
-                AllowBackgroundUpdates = false,
-                DeferLocationUpdates = true,
-                DeferralDistanceMeters = 200,
-                //DeferralTime = TimeSpan.FromSeconds(5),
-                ListenForSignificantChanges = true,
-                PauseLocationUpdatesAutomatically = false
-            });
+                    // Causes permission error when set to true
+                    AllowBackgroundUpdates = false,
+                    DeferLocationUpdates = true,
+                    DeferralDistanceMeters = 200,
+                    //DeferralTime = TimeSpan.FromSeconds(5),
+                    ListenForSignificantChanges = true,
+                    PauseLocationUpdatesAutomatically = false
+                });
 
-            CrossGeolocator.Current.PositionChanged += (sender, e) => {
-                var position = e.Position;
-                Debug.WriteLine("Latitude: " + position.Latitude);
-                Debug.WriteLine("Longtitude: " + position.Longitude);
-            };
+                CrossGeolocator.Current.PositionChanged += (sender, e) => {
+                    var position = e.Position;
+                    Debug.WriteLine("Latitude: " + position.Latitude);
+                    Debug.WriteLine("Longtitude: " + position.Longitude);
+                };
+            }            
         }
 
         async void LogLocation()
