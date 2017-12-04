@@ -1,4 +1,5 @@
 ​// Automatic check-in
+// Use following command to reinstall all packages in the project: Update-Package -ProjectName AbsenceApp -reinstall
 
 Position latestLocation;
 Position ealLocation;
