@@ -10,6 +10,8 @@ namespace AbsenceApp
             MainPage = new AbsenceApp.Pages.MainPage();
         }
 
+        public static string AppName { get { return "AbsenceApp"; } }
+
         protected override void OnStart()
         {
             // Handle when your app starts
