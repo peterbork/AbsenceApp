@@ -14,11 +14,12 @@
                 HorizontalOptions="Center"
             />
             
+            
             <Label Text="Username" FontSize="Default" />
-            <Entry x:Name="UsernameInput"  Keyboard="Chat" />
+            <Entry x:Name="UsernameInput"  Keyboard="Email" Completed="UsernameCompleted" />
             
             <Label Text="Password" FontSize="Default" />
-            <Entry x:Name="PasswordInput" IsPassword="true" />
+            <Entry x:Name="PasswordInput" IsPassword="true" Completed="PasswordCompleted" />
 
             <Label 
                 x:Name="errorLabel" 

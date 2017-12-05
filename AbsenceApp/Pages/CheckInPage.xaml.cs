@@ -26,7 +26,7 @@ namespace AbsenceApp.Pages
             Title = "Check-In";
 
             LocationController _locationController = new LocationController();
-
+            
             // how to use controllers
             //AbsenceMessageController _AbsenceMessageController = new AbsenceMessageController();
             //var absenceMessages = _AbsenceMessageController.GetAll();

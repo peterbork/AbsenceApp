@@ -16,13 +16,21 @@ namespace AbsenceApp.Pages
         public LoginPage(MainPage mainPage)
         {
             this.mainPage = mainPage;
-
             InitializeComponent();
 
             //Debug.WriteLine(Username);
         }
 
-        async void SubmitLogin(object sender, System.EventArgs e)
+        void UsernameCompleted(object sender, EventArgs e) {
+            PasswordInput.Focus();
+        }
+
+        void PasswordCompleted(object sender, EventArgs e)
+        {
+            SubmitLogin(sender, e);
+        }
+
+        async void SubmitLogin(object sender, EventArgs e)
         {
             // Use the test user with both the username and password "test"
             HttpClient client = new HttpClient();
