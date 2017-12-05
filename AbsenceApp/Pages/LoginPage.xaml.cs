@@ -61,20 +61,20 @@ namespace AbsenceApp.Pages
             await Navigation.PopModalAsync();
         }
 
-        public void SaveCredentials(string userName, string password)
-        {
-            if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
-            {
-                Account account = new Account
-                {
-                    Username = userName
-                };
-                account.Properties.Add("Password", password);
+        //public void SaveCredentials(string userName, string password)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
+        //    {
+        //        Account account = new Account
+        //        {
+        //            Username = userName
+        //        };
+        //        account.Properties.Add("Password", password);
 
-                AccountStore.Create().Save(account, "AbsenceApp");
-                Debug.WriteLine("Credentials saved");
-            }
-        }
+        //        AccountStore.Create().Save(account, "AbsenceApp");
+        //        Debug.WriteLine("Credentials saved");
+        //    }
+        //}
 
         //public var GetCredentials() {
         //    var account = AccountStore.Create().FindAccountsForService(App.AppName).FirstOrDefault();

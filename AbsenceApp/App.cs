@@ -10,7 +10,7 @@ namespace AbsenceApp
 
         public App()
         {
-            MainPage = new AbsenceApp.Pages.MainPage();
+            MainPage = new Pages.MainPage();
         }
 
         public static string AppName { get { return "AbsenceApp"; } }
