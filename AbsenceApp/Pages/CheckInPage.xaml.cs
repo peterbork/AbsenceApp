@@ -25,7 +25,7 @@ namespace AbsenceApp.Pages
             InitializeComponent();
             Title = "Check-In";
 
-            ILocation location = DependencyService.Get<ILocation>();
+            //ILocation location;
 
             LocationController _locationController = new LocationController();
             
@@ -39,6 +39,8 @@ namespace AbsenceApp.Pages
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled)
                 {
+                    //location = DependencyService.Get<ILocation>();
+                    //location.ObtainMyLocation();
                     //_locationController.StartListening();
 
                     Device.StartTimer(TimeSpan.FromSeconds(5), () => {
@@ -46,6 +48,9 @@ namespace AbsenceApp.Pages
                         //LogLocation();
                         return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
                     });
+                } else
+                {
+                    //location = null;
                 }
             };
 
@@ -110,13 +115,13 @@ namespace AbsenceApp.Pages
 
         public void GetLocation(){
             ILocation loc = DependencyService.Get<ILocation>();
-            loc.ObtainMyLocation();
+            loc.StartListener();
             loc.locationObtained += (object ss, ILocationEventArgs ee) =>
             {
                 lat = ee.lat;
                 lng = ee.lng;
             };
-            loc.ObtainMyLocation();
+            loc.StartListener();
 
             Debug.WriteLine("lat: " + lat + " lng: " + lng);
             Debug.WriteLine("Distance to the school: " + GeoCodeCalc.CalcDistance(lat, lng, ealLocation.Latitude, ealLocation.Longitude, GeoCodeCalcMeasurement.Kilometers));

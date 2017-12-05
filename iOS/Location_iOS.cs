@@ -39,40 +39,35 @@ namespace AbsenceApp.iOS
 
         public Location_iOS()
         {
-            this.locMgr = new CLLocationManager();
+            locMgr = new CLLocationManager();
 
-            this.locMgr.PausesLocationUpdatesAutomatically = false;
+            locMgr.PausesLocationUpdatesAutomatically = false;
 
             // iOS 8 has additional permissions requirements
             if (UIDevice.CurrentDevice.CheckSystemVersion(8, 0))
             {
                 locMgr.RequestAlwaysAuthorization(); // works in background
-                                                     //locMgr.RequestWhenInUseAuthorization (); // only in foreground
+                //locMgr.RequestWhenInUseAuthorization (); // only in foreground
             }
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(9, 0))
             {
                 locMgr.AllowsBackgroundLocationUpdates = true;
+                Debug.WriteLine("Allows background updates: " + locMgr.AllowsBackgroundLocationUpdates.ToString());
             }
-            //locationObtained += PrintLocation;
         }
 
-        // create a location manager to get system location updates to the application
         public CLLocationManager LocMgr {
             get { return this.locMgr; }
         }
 
-        public void ObtainMyLocation()
+        public void StartListener()
         {
             if (CLLocationManager.LocationServicesEnabled)
             {
-                locMgr = new CLLocationManager();
-                locMgr.DesiredAccuracy = CLLocation.AccuracyBest;
-                locMgr.DistanceFilter = CLLocationDistance.FilterNone;
+                LocMgr.DesiredAccuracy = 1; // sets the accuracy that we want in meters
 
-                locMgr.DesiredAccuracy = 1; // sets the accuracy that we want in meters
-
-                locMgr.LocationsUpdated += (object sender, CLLocationsUpdatedEventArgs e) =>
+                LocMgr.LocationsUpdated += (object sender, CLLocationsUpdatedEventArgs e) =>
                 {
                     // fire our custom Location Updated event
                     var locations = e.Locations;
@@ -86,32 +81,33 @@ namespace AbsenceApp.iOS
                     args.lng = locations[locations.Length - 1].Coordinate.Longitude;
 
                     locationObtained(this, args);
-                    //Debug.WriteLine(locationObtained);
+                    //Debug.WriteLine("Lat: " + args.lat);
+                    //Debug.WriteLine("Lng: " + args.lng);
                 };
 
-                locMgr.AuthorizationChanged += (object sender, CLAuthorizationChangedEventArgs e) =>
+                LocMgr.StartUpdatingLocation();
+
+                LocMgr.AuthorizationChanged += (object sender, CLAuthorizationChangedEventArgs e) =>
                 {
                     if (e.Status == CLAuthorizationStatus.AuthorizedAlways)
                     {
-                        locMgr.StartUpdatingLocation();
+                        LocMgr.StartUpdatingLocation();
+                    } else
+                    {
+                        Debug.WriteLine("Authorization error");
                     }
                 };
 
-                // Start our location updates
-                LocMgr.StartUpdatingLocation();
-
                 // Get some output from our manager in case of failure
                 LocMgr.Failed += (object sender, NSErrorEventArgs e) => {
-                    Console.WriteLine(e.Error);
+                    Debug.WriteLine(e.Error);
                 };
-
-                locMgr.RequestAlwaysAuthorization();
             }
         }
 
         ~Location_iOS()
         {
-            locMgr.StopUpdatingLocation();
+            LocMgr.StopUpdatingLocation();
         }
     }
 }

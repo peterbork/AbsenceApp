@@ -21,10 +21,10 @@ namespace AbsenceApp
             location = DependencyService.Get<ILocation>();
             location.locationObtained += (object sender, ILocationEventArgs e) =>
             {
-                Debug.WriteLine(e.lat);
-                Debug.WriteLine(e.lng);
+                Debug.WriteLine("Lat: " + e.lat);
+                Debug.WriteLine("Lng: " + e.lng);
             };
-            location.ObtainMyLocation();
+            location.StartListener();
         }
 
         protected override void OnSleep()
