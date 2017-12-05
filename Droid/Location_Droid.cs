@@ -62,7 +62,6 @@ namespace AbsenceApp.Droid
 
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
-            System.Diagnostics.Debug.WriteLine(provider);
         }
     }
 }

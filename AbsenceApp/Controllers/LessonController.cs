@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using AbsenceApp.Models;
 using Newtonsoft.Json;
+using Plugin.Settings;
+using Plugin.Settings.Abstractions;
+using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Controllers{
     public class LessonController{
         
-        private string baseUrl = "http://159.89.14.62/api/";
+        private string baseUrl = Settings.ApiUrl;
 
         private HttpClient GetClient(){
             HttpClient client = new HttpClient();

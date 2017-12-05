@@ -6,6 +6,9 @@ using Xamarin.Forms;
 using Newtonsoft.Json;
 using AbsenceApp.Models;
 using Xamarin.Auth;
+using Plugin.Settings;
+using Plugin.Settings.Abstractions;
+using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Pages
 {
@@ -17,6 +20,8 @@ namespace AbsenceApp.Pages
         {
             this.mainPage = mainPage;
             InitializeComponent();
+
+            GetCredentials();
 
             //Debug.WriteLine(Username);
         }
@@ -55,7 +60,7 @@ namespace AbsenceApp.Pages
 
             User user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
-            //SaveCredentials(username, password);
+            SaveCredentials(username, password);
 
             this.mainPage.login(user);
             await Navigation.PopModalAsync();
@@ -65,38 +70,20 @@ namespace AbsenceApp.Pages
         {
             if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
             {
-                Account account = new Account
-                {
-                    Username = userName
-                };
-                account.Properties.Add("Password", password);
-
-                AccountStore.Create().Save(account, "AbsenceApp");
+                Settings.UserName = userName;
+                Settings.UserPassword = password;
                 Debug.WriteLine("Credentials saved");
             }
         }
 
-        //public var GetCredentials() {
-        //    var account = AccountStore.Create().FindAccountsForService(App.AppName).FirstOrDefault();
-        //    return (account != null) ? account.Username : null;
-        //}
-
-        //public string Username
-        //{
-        //    get
-        //    {
-        //        var account = AccountStore.Create().FindAccountsForService("AbsenceApp").FirstOrDefault();
-        //        return (account != null) ? account.Username : null;
-        //    }
-        //}
-
-        //public string Password
-        //{
-        //    get
-        //    {
-        //        var account = AccountStore.Create().FindAccountsForService("AbsenceApp").FirstOrDefault();
-        //        return (account != null) ? account.Properties["Password"] : null;
-        //    }
-        //}
+        public void GetCredentials()
+        {
+            if (!string.IsNullOrWhiteSpace(Settings.UserName) && !string.IsNullOrWhiteSpace(Settings.UserPassword))
+            {
+                UsernameInput.Text = Settings.UserName;
+                PasswordInput.Text = Settings.UserPassword;
+                Debug.WriteLine("Credentials loaded");
+            }
+        }
     }
 }

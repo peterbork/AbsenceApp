@@ -10,6 +10,8 @@ namespace AbsenceApp.Pages
 
         public MainPage()
         {
+            this.showLoginPage();
+
             CheckInPage checkInPage = new CheckInPage();
             NavigationPage.SetHasNavigationBar(checkInPage, false);
 
@@ -19,8 +21,6 @@ namespace AbsenceApp.Pages
             Children.Add(navigationPage);
             Children.Add(new AbsencePage());
             Children.Add(new HistoryPage());
-
-            this.showLoginPage();
         }
 
         private void showLoginPage()
