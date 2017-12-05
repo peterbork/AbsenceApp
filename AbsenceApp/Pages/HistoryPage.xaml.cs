@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using AbsenceApp.Controllers;
+using AbsenceApp.Models;
 using Xamarin.Forms;
 
 namespace AbsenceApp.Pages {
@@ -39,24 +42,45 @@ namespace AbsenceApp.Pages {
                 startDate = startDate.AddMonths(1);
                 i++;
             }
+
             MonthPicker.ItemsSource = monthArray;
             MonthPicker.SelectedIndex = DateTime.Now.Month - 1;
 
-            AbsenceHistory.Add(new Absence() { Date = "16-10-2017", MissingHours = "2 hours missed" });
-            AbsenceHistory.Add(new Absence() { Date = "16-11-2017", MissingHours = "5 hours missed" });
+            int SelectedMonth = 11;
+            int SelectedYear = DateTime.Now.Year;
+            int user_id = 1;
+
+            LessonController _LessonController = new LessonController();
+            var lessons = _LessonController.GetMonthly(SelectedMonth, SelectedYear);
+
+            AttendanceController _AttendanceController = new AttendanceController();
+            var attendances = _AttendanceController.GetMonthly(user_id, SelectedMonth, SelectedYear);
+
+            List<Lesson> Lessonstest = new List<Lesson>();
+
+            foreach(Lesson lesson in lessons){
+                foreach(Attendance attendance in attendances){
+                    if(lesson.start <= attendance.started_at && lesson.end > attendance.started_at){
+                        Lessonstest.Add(lesson);
+                    }
+                }
+            }
+            var NotAttendedLessons = lessons.ToList().Except(Lessonstest);
+
+            double[] hours = new double[31];
+            foreach(Lesson NotAttendedLessonsEdited in NotAttendedLessons){
+                hours[NotAttendedLessonsEdited.start.Day] = hours[NotAttendedLessonsEdited.start.Day] + (NotAttendedLessonsEdited.end - NotAttendedLessonsEdited.start).TotalHours;
+            }
+
+            int j = 0;
+            foreach (double hour in hours) {
+                if(hour != 0){
+                    AbsenceHistory.Add(new Absence() { Date = j + "-" + SelectedMonth + "-" + SelectedYear, MissingHours = hour + " hours missed" });    
+                }
+                j++;
+            }
 
             AbsenceListView.ItemsSource = AbsenceHistory;
-
-            //        var data = new List<List<String>>{
-            //            new List<string>{
-            //                "test", "test2"
-            //            },
-            //            new List<string>{
-            //                "test", "test2"
-            //            }
-            //        };
-            //        listView.ItemsSource = data;
-            //    }
         }
     }
 }

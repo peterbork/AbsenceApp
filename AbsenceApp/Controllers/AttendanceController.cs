@@ -21,6 +21,22 @@ namespace AbsenceApp.Controllers {
             string result = client.GetStringAsync(baseUrl + "attendance").Result;
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
+
+        public IEnumerable<Attendance> GetMonthly(int user_id, int? month = null, int? year = null)
+        {
+            string route = "";
+            if (month == null || year == null)
+            {
+                route = "attendance/user/" + user_id + "/monthly";
+            }
+            else
+            {
+                route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
+            }
+            HttpClient client = GetClient();
+            string result = client.GetStringAsync(baseUrl + route).Result;
+            return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
+        }
     }
 }
     
