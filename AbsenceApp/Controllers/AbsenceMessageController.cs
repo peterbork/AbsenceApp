@@ -5,12 +5,15 @@ using Newtonsoft.Json;
 using AbsenceApp.Models;
 using System.Text;
 using System.Globalization;
+using Plugin.Settings;
+using Plugin.Settings.Abstractions;
+using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Controllers
 {
     public class AbsenceMessageController
     {
-        private string baseUrl = "http://159.89.14.62/api/";
+        private string baseUrl = Settings.ApiUrl;
 
         private HttpClient GetClient()
         {
