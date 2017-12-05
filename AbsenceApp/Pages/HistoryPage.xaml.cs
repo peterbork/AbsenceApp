@@ -17,20 +17,7 @@ namespace AbsenceApp.Pages {
             InitializeComponent();
             Title = "History";
 
-            //listView.ItemsSource = new string[]{
-            //    "mono",
-            //    "monodroid",
-            //    "monotouch",
-            //    "monorail",
-            //    "monodevelop",
-            //    "monotone",
-            //    "monopoly",
-            //    "monomodal",
-            //    "mononucleosis"
-            //};
-
-
-            DateTime startDate = new DateTime(2017, 1, 1);
+            DateTime startDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
             DateTime currentDate = DateTime.Now;
 
             string[] months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
