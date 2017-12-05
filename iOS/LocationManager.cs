@@ -40,7 +40,6 @@ namespace AbsenceApp.iOS
             get { return this.locMgr; }
         }
 
-
         public void StartLocationUpdates()
         {
             // We need the user's permission for our app to use the GPS in iOS. This is done either by the user accepting

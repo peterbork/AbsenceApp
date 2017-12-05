@@ -6,11 +6,11 @@ using AbsenceApp.iOS;
 [assembly: Dependency(typeof(GetMyLocation))]
 namespace AbsenceApp.iOS
 {
-	public class LocationEventArgs : EventArgs, ILocationEventArgs
-	{
-		public double lat { get; set; }
-		public double lng { get; set; }
-	}
+	//public class LocationEventArgs : EventArgs, ILocationEventArgs
+	//{
+	//	public double lat { get; set; }
+	//	public double lng { get; set; }
+	//}
 	public class GetMyLocation : ILocation
 	{
 		public event EventHandler<ILocationEventArgs> locationObtained;

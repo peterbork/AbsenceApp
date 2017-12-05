@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace AbsenceApp {
     public interface ILocation {
         void ObtainMyLocation();
@@ -9,4 +10,3 @@ namespace AbsenceApp {
         double lng { get; set; }
     }
 }
-

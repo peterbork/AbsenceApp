@@ -25,6 +25,8 @@ namespace AbsenceApp.Pages
             InitializeComponent();
             Title = "Check-In";
 
+            ILocation location = DependencyService.Get<ILocation>();
+
             LocationController _locationController = new LocationController();
             
             // how to use controllers
@@ -37,7 +39,7 @@ namespace AbsenceApp.Pages
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled)
                 {
-                    _locationController.StartListening();
+                    //_locationController.StartListening();
 
                     Device.StartTimer(TimeSpan.FromSeconds(5), () => {
                         //GetLocation();
