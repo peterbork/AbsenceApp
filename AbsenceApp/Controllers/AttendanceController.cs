@@ -8,7 +8,7 @@ using System.Text;
 namespace AbsenceApp.Controllers {
     public class AttendanceController {
         
-        private string baseUrl = "http://absenceappbackend.dev/api/";
+        private string baseUrl = "http://159.89.14.62/api/";
 
         private HttpClient GetClient() {
             HttpClient client = new HttpClient();
