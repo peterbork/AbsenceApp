@@ -14,12 +14,11 @@ namespace AbsenceApp.Pages
 {
     public partial class LoginPage : ContentPage
     {
-        MainPage mainPage;
 
-        public LoginPage(MainPage mainPage)
+        public LoginPage()
         {
-            this.mainPage = mainPage;
             InitializeComponent();
+            //this.mainPage = mainPage;
 
             GetCredentials();
 
@@ -62,7 +61,7 @@ namespace AbsenceApp.Pages
 
             SaveCredentials(username, password);
 
-            this.mainPage.login(user);
+            //this.mainPage.login(user);
             await Navigation.PopModalAsync();
         }
 
