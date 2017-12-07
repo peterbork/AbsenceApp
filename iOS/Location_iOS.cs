@@ -24,6 +24,7 @@ namespace AbsenceApp.iOS
     public class Location_iOS : ILocation
     {
         CLLocationManager locMgr;
+
         // event for the location changing
         public event EventHandler<ILocationEventArgs> locationObtained;
 
@@ -40,6 +41,7 @@ namespace AbsenceApp.iOS
         public Location_iOS()
         {
             locMgr = new CLLocationManager();
+
 
             locMgr.PausesLocationUpdatesAutomatically = false;
 
@@ -61,11 +63,49 @@ namespace AbsenceApp.iOS
             get { return this.locMgr; }
         }
 
-        public void StartListener()
+        public void StartListener(double lat, double lng, int distance)
         {
             if (CLLocationManager.LocationServicesEnabled)
             {
-                LocMgr.DesiredAccuracy = 1; // sets the accuracy that we want in meters
+                //LocMgr.StartUpdatingLocation();
+                // EAL: 55.4034637, 10.3795097
+
+                CLCircularRegion EAL = new CLCircularRegion(new CLLocationCoordinate2D(lat, lng), distance, "EAL");
+
+                if (CLLocationManager.IsMonitoringAvailable(typeof(CLCircularRegion)))
+                {
+                    LocMgr.DidStartMonitoringForRegion += (o, e) => {
+                        Console.WriteLine("Now monitoring region {0}", e.Region.ToString());
+                    };
+
+                    LocMgr.RegionEntered += (o, e) => {
+                        Console.WriteLine("Just entered " + e.Region.ToString());
+                    };
+
+                    LocMgr.RegionLeft += (o, e) => {
+                        Console.WriteLine("Just left " + e.Region.ToString());
+                    };
+
+                    LocMgr.StartMonitoring(EAL);
+
+                } else {
+                    Console.WriteLine("This app requires region monitoring, which is unavailable on this device");
+                }
+
+                // Get some output from our manager in case of failure
+                LocMgr.Failed += (object sender, NSErrorEventArgs e) => {
+                    Debug.WriteLine("Error: " + e.Error);
+                };
+            }
+        }
+
+        public void StartListenerOld(double lat, double lng, int distance)
+        {
+            if (CLLocationManager.LocationServicesEnabled)
+            {
+                LocMgr.DesiredAccuracy = distance; // sets the accuracy that we want in meters
+
+                Debug.WriteLine(LocMgr.DesiredAccuracy);
 
                 LocMgr.LocationsUpdated += (object sender, CLLocationsUpdatedEventArgs e) =>
                 {
@@ -85,7 +125,9 @@ namespace AbsenceApp.iOS
                     //Debug.WriteLine("Lng: " + args.lng);
                 };
 
-                LocMgr.StartUpdatingLocation();
+                //LocMgr.StartUpdatingLocation();
+                // EAL: 55.4034637, 10.3795097
+                LocMgr.StartMonitoringSignificantLocationChanges();
 
                 LocMgr.AuthorizationChanged += (object sender, CLAuthorizationChangedEventArgs e) =>
                 {

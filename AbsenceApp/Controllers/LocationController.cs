@@ -9,11 +9,19 @@ using System.Diagnostics;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
+using AbsenceApp.Helpers;
+using System.Device.Location;
+
 
 namespace AbsenceApp.Controllers
 {
-    class LocationController
+    public class LocationController
     {
+        ILocation location;
+
+        GeoCoordinate schoolPosition = new GeoCoordinate(55.4034637, 10.3795097);
+        
+        public int distance = 100;
         //public var currentPosition;
 
         //public async void GrantPermission() {
@@ -50,7 +58,26 @@ namespace AbsenceApp.Controllers
         //    }
         //}
 
-        public async Task StartListening()
+        public void StartListener()
+        {
+            location = DependencyService.Get<ILocation>();
+            location.locationObtained += (object sender, ILocationEventArgs e) =>
+            {
+                Debug.WriteLine("Lat: " + e.lat);
+                Debug.WriteLine("Lng: " + e.lng);
+                Debug.WriteLine("Distance to school: " + GetDistanceToSchool(e));
+            };
+            location.StartListener(schoolPosition.Latitude, schoolPosition.Longitude, distance);
+        }
+
+        public double GetDistanceToSchool(ILocationEventArgs e)
+        {
+            GeoCoordinate userPosition = new GeoCoordinate(e.lat, e.lng);
+
+            return userPosition.GetDistanceTo(schoolPosition);
+        }
+
+        public async Task StartListeningOld()
         {
             // If iOS
             if (Device.RuntimePlatform == Device.iOS) {

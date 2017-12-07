@@ -6,7 +6,7 @@ namespace AbsenceApp
 {
     public class App : Application
     {
-        ILocation location;
+        //ILocation location;
 
         public App()
         {
@@ -18,13 +18,13 @@ namespace AbsenceApp
         protected override void OnStart()
         {
             // Handle when your app starts
-            location = DependencyService.Get<ILocation>();
-            location.locationObtained += (object sender, ILocationEventArgs e) =>
-            {
-                Debug.WriteLine("Lat: " + e.lat);
-                Debug.WriteLine("Lng: " + e.lng);
-            };
-            location.StartListener();
+            //location = DependencyService.Get<ILocation>();
+            //location.locationObtained += (object sender, ILocationEventArgs e) =>
+            //{
+            //    Debug.WriteLine("Lat: " + e.lat);
+            //    Debug.WriteLine("Lng: " + e.lng);
+            //};
+            //location.StartListener();
         }
 
         protected override void OnSleep()

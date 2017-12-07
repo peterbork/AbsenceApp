@@ -2,7 +2,7 @@
 
 namespace AbsenceApp {
     public interface ILocation {
-        void StartListener();
+        void StartListener(double lat, double lng, int distance);
         event EventHandler<ILocationEventArgs> locationObtained;
     }
     public interface ILocationEventArgs {

@@ -56,7 +56,7 @@ namespace AbsenceApp.Pages {
 
             double[] hours = new double[31];
             foreach(Lesson NotAttendedLessonsEdited in NotAttendedLessons){
-                hours[NotAttendedLessonsEdited.start.Day] = hours[NotAttendedLessonsEdited.start.Day] + (NotAttendedLessonsEdited.end - NotAttendedLessonsEdited.start).TotalHours;
+                //hours[NotAttendedLessonsEdited.start.Day] = hours[NotAttendedLessonsEdited.start.Day] + (NotAttendedLessonsEdited.end - NotAttendedLessonsEdited.start).TotalHours;
             }
 
             int j = 0;
