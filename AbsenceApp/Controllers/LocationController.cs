@@ -38,40 +38,10 @@ namespace AbsenceApp.Controllers
             return userPosition.GetDistanceTo(schoolPosition);
         }
 
-        public async Task StartListeningOld()
+        public void GetLocation()
         {
-            // If iOS
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                Debug.WriteLine("iOS detected");
-
-            }
-            else
-            {
-                // If Android
-                if (CrossGeolocator.Current.IsListening)
-                    return;
-
-                ///This logic will run on the background automatically on iOS, however for Android and UWP you must put logic in background services. Else if your app is killed the location updates will be killed.
-                await CrossGeolocator.Current.StartListeningAsync(TimeSpan.FromSeconds(5), 10, true, new ListenerSettings
-                {
-                    //ActivityType = ActivityType.AutomotiveNavigation,
-
-                    // Causes permission error when set to true
-                    AllowBackgroundUpdates = false,
-                    DeferLocationUpdates = true,
-                    DeferralDistanceMeters = 200,
-                    //DeferralTime = TimeSpan.FromSeconds(5),
-                    ListenForSignificantChanges = true,
-                    PauseLocationUpdatesAutomatically = false
-                });
-
-                CrossGeolocator.Current.PositionChanged += (sender, e) => {
-                    var position = e.Position;
-                    Debug.WriteLine("Latitude: " + position.Latitude);
-                    Debug.WriteLine("Longtitude: " + position.Longitude);
-                };
-            }
+            var location = CrossGeofence.Current.LastKnownLocation;
+            Debug.WriteLine("Lat: " + location.Latitude + " lng: " + location.Longitude + " date: " + location.Date);
         }
 
         async void LogLocation()

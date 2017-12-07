@@ -19,6 +19,7 @@ namespace AbsenceApp.Pages
         double lat;
         double lng;
         Position ealLocation;
+        LocationController _locationController;
 
         public CheckInPage()
         {
@@ -27,7 +28,7 @@ namespace AbsenceApp.Pages
 
             //ILocation location;
 
-            LocationController _locationController = new LocationController();
+            _locationController = new LocationController();
             
             // how to use controllers
             //AbsenceMessageController _AbsenceMessageController = new AbsenceMessageController();
@@ -96,18 +97,18 @@ namespace AbsenceApp.Pages
         //    }
         //}
 
-        async void CheckInButtonClicked(object sender, System.EventArgs e) {
-            GetLocation();
+        async void CheckInButtonClicked(object sender, EventArgs e) {
+            _locationController.GetLocation();
             //LogLocation();
 
-            if (!atSchool.IsToggled) {
-                var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
-                if(answer) {
-                    CheckIn();
-                }
-            } else {
-                CheckIn();
-            }
+            //if (!atSchool.IsToggled) {
+            //    var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
+            //    if(answer) {
+            //        CheckIn();
+            //    }
+            //} else {
+            //    CheckIn();
+            //}
         }
 
         void CheckIn() {
