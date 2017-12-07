@@ -11,63 +11,24 @@ using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 using AbsenceApp.Helpers;
 using System.Device.Location;
-
+using Geofence.Plugin;
+using Geofence.Plugin.Abstractions;
 
 namespace AbsenceApp.Controllers
 {
     public class LocationController
     {
-        ILocation location;
-
         GeoCoordinate schoolPosition = new GeoCoordinate(55.4034637, 10.3795097);
-        
+
         public int distance = 100;
-        //public var currentPosition;
-
-        //public async void GrantPermission() {
-        //    try
-        //    {
-        //        var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-        //        if (status != PermissionStatus.Granted)
-        //        {
-        //            if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
-        //            {
-        //                await Xamarin.Forms.DisplayAlert("Need location", "Gunna need that location", "OK");
-        //            }
-
-        //            var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-        //            //Best practice to always check that the key exists
-        //            if (results.ContainsKey(Permission.Location))
-        //                status = results[Permission.Location];
-        //        }
-
-        //        if (status == PermissionStatus.Granted)
-        //        {
-        //            var results = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(10));
-        //            //LabelGeolocation.Text = "Lat: " + results.Latitude + " Long: " + results.Longitude;
-        //        }
-        //        else if (status != PermissionStatus.Unknown)
-        //        {
-        //            //await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine(ex.ToString());
-        //        //LabelGeolocation.Text = "Error: " + ex;
-        //    }
-        //}
 
         public void StartListener()
         {
-            location = DependencyService.Get<ILocation>();
-            location.locationObtained += (object sender, ILocationEventArgs e) =>
-            {
-                Debug.WriteLine("Lat: " + e.lat);
-                Debug.WriteLine("Lng: " + e.lng);
-                Debug.WriteLine("Distance to school: " + GetDistanceToSchool(e));
-            };
-            location.StartListener(schoolPosition.Latitude, schoolPosition.Longitude, distance);
+            GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", schoolPosition.Latitude, schoolPosition.Longitude, distance);
+
+            CrossGeofence.Current.StartMonitoring(region);
+
+            Debug.WriteLine("Geofence status: " + CrossGeofence.Current.IsMonitoring);
         }
 
         public double GetDistanceToSchool(ILocationEventArgs e)
@@ -80,10 +41,13 @@ namespace AbsenceApp.Controllers
         public async Task StartListeningOld()
         {
             // If iOS
-            if (Device.RuntimePlatform == Device.iOS) {
+            if (Device.RuntimePlatform == Device.iOS)
+            {
                 Debug.WriteLine("iOS detected");
-                
-            } else {
+
+            }
+            else
+            {
                 // If Android
                 if (CrossGeolocator.Current.IsListening)
                     return;
@@ -107,7 +71,7 @@ namespace AbsenceApp.Controllers
                     Debug.WriteLine("Latitude: " + position.Latitude);
                     Debug.WriteLine("Longtitude: " + position.Longitude);
                 };
-            }            
+            }
         }
 
         async void LogLocation()

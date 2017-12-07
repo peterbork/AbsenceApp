@@ -35,7 +35,7 @@ namespace AbsenceApp.Droid
             }
         }
 
-        public void StartListener()
+        public void StartListener(double lat, double lng, int distance)
         {
             LocationManager lm = (LocationManager)CrossCurrentActivity.Current.Activity.GetSystemService(Context.LocationService);
             lm.RequestLocationUpdates(LocationManager.NetworkProvider, ms, meters, this);

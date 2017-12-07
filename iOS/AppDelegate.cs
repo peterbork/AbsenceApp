@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Geofence.Plugin;
+using AbsenceApp.Helpers;
 
 using Foundation;
 using UIKit;
@@ -16,6 +18,8 @@ namespace AbsenceApp.iOS
 
             LoadApplication(new App());
             Xamarin.FormsMaps.Init();
+
+            CrossGeofence.Initialize<CrossGeofenceListener>();
 
             return base.FinishedLaunching(app, options);
 
