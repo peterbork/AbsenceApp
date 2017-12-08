@@ -1,6 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 using System.Diagnostics;
+using AbsenceApp.Helpers;
+using Geofence.Plugin;
 
 namespace AbsenceApp
 {
@@ -18,6 +20,7 @@ namespace AbsenceApp
         protected override void OnStart()
         {
             // Handle when your app starts
+            
             //location = DependencyService.Get<ILocation>();
             //location.locationObtained += (object sender, ILocationEventArgs e) =>
             //{

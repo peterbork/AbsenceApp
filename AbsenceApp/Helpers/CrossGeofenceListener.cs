@@ -6,12 +6,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AbsenceApp.Controllers;
+using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Helpers
 {
     //Class to handle geofence events such as start/stop monitoring, region state changes and errors.
     public class CrossGeofenceListener : IGeofenceListener
     {
+        LessonController lessonController;
+        LocationController locationController;
+
+        public CrossGeofenceListener()
+        {
+            lessonController = new LessonController();
+            locationController = LocationController.Instance;
+        }
+
         public void OnMonitoringStarted(string region)
         {
             Debug.WriteLine(string.Format("{0} - {1}: {2}", CrossGeofence.Id, "Monitoring in region", region));
@@ -35,6 +46,22 @@ namespace AbsenceApp.Helpers
 
         public void OnRegionStateChanged(GeofenceResult result)
         {
+            // Entered/Exited
+            if (result.Transition.ToString() == "Entered")
+            {
+                locationController.IsWithinSchool = true;
+                if (lessonController.hasClassesToday() && !Settings.CheckedIn && Settings.CheckinEnabled)
+                {
+                    locationController.CheckIn();
+                }
+            } else if (result.Transition.ToString() == "Exited" && Settings.CheckedIn)
+            {
+                locationController.IsWithinSchool = false;
+                locationController.CheckOut();
+            }
+
+            Debug.WriteLine(result.Transition.ToString());
+            
             Debug.WriteLine(string.Format("{0} - {1}", CrossGeofence.Id, result.ToString()));
         }
 
@@ -46,6 +73,7 @@ namespace AbsenceApp.Helpers
 
         public void OnLocationChanged(GeofenceLocation location)
         {
+            Debug.WriteLine("Has classes: " + lessonController.hasClassesNow().ToString());
             Debug.WriteLine("Location changed: " + location.ToString());
         }
     }

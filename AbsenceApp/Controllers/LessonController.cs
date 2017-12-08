@@ -12,6 +12,10 @@ namespace AbsenceApp.Controllers{
         
         private string baseUrl = Settings.ApiUrl;
 
+        public DateTime classesStart = new DateTime(2018, 01, 24, 07, 15, 00);
+        public DateTime classesEnd = new DateTime(2018, 01, 24, 08, 00, 00);
+        public DateTime now = new DateTime(2018, 01, 24, 07, 30, 00);
+
         private HttpClient GetClient(){
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -29,6 +33,18 @@ namespace AbsenceApp.Controllers{
             HttpClient client = GetClient();
             string result = client.GetStringAsync(baseUrl + route).Result;
             return JsonConvert.DeserializeObject<IEnumerable<Lesson>>(result);
+        }
+
+        public bool hasClassesNow()
+        {
+            return now > classesStart && now < classesEnd ? true : false;
+            //return true;
+        }
+
+        public bool hasClassesToday()
+        {
+            return now.Day == classesStart.Day && now < classesEnd ? true : false;
+            //return true;
         }
     }
 }

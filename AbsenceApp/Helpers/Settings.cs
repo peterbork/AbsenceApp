@@ -54,6 +54,22 @@ namespace AbsenceApp.Helpers
             set { AppSettings.AddOrUpdateValue(UserPasswordKey, value); }
         }
 
+        private const string CheckinEnabledKey = "checkinEnabled_key";
+        private static readonly bool CheckinEnabledDefault = false;
+
+        public static bool CheckinEnabled {
+            get { return AppSettings.GetValueOrDefault(CheckinEnabledKey, CheckinEnabledDefault); }
+            set { AppSettings.AddOrUpdateValue(CheckinEnabledKey, value); }
+        }
+
+        private const string CheckedInKey = "checkinEnabled_key";
+        private static readonly bool CheckedInDefault = false;
+
+        public static bool CheckedIn {
+            get { return AppSettings.GetValueOrDefault(CheckedInKey, CheckedInDefault); }
+            set { AppSettings.AddOrUpdateValue(CheckedInKey, value); }
+        }
+
         #endregion
     }
 }

@@ -34,7 +34,9 @@ namespace AbsenceApp.Controllers {
             }
             else
             {
-                route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
+                // Temporary mock data
+                route = "attendance/user/" + user_id + "/monthly/1/2018";
+                //route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
             }
             HttpClient client = GetClient();
             string result = client.GetStringAsync(baseUrl + route).Result;

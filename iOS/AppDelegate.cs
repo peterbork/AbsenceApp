@@ -15,14 +15,13 @@ namespace AbsenceApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-
+            
             LoadApplication(new App());
             Xamarin.FormsMaps.Init();
 
             CrossGeofence.Initialize<CrossGeofenceListener>();
 
             return base.FinishedLaunching(app, options);
-
         }
 
         // Runs when the activation transitions from running in the background to
