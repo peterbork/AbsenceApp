@@ -6,18 +6,19 @@ using System.Linq;
 using AbsenceApp.Controllers;
 using AbsenceApp.Models;
 using Xamarin.Forms;
+using Entry = Microcharts.Entry;
+using SkiaSharp;
+using Microcharts;
 
 namespace AbsenceApp.Pages {
 
     public partial class HistoryPage : ContentPage {
 
-        
-
         public HistoryPage() {
-            
+             
+
             InitializeComponent();
             Title = "History";
-
             DateTime startDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
             DateTime currentDate = DateTime.Now;
 
@@ -26,7 +27,7 @@ namespace AbsenceApp.Pages {
 
             int i = 0;
             while (startDate <= currentDate) {
-                monthArray.Add(months[startDate.Month - 1]+ " " + startDate.Year);
+                monthArray.Add(months[startDate.Month - 1]);
                 startDate = startDate.AddMonths(1);
                 i++;
             }
@@ -45,7 +46,7 @@ namespace AbsenceApp.Pages {
         public void FindAbsence(int SelectedMonth, int SelectedYear) {
             int user_id = 1;
             LessonController _LessonController = new LessonController();
-            
+
             var lessons = _LessonController.GetMonthly(SelectedMonth, SelectedYear);
 
             AttendanceController _AttendanceController = new AttendanceController();
@@ -73,15 +74,21 @@ namespace AbsenceApp.Pages {
 
             int j = 0;
             ObservableCollection<Absence> AbsenceHistory = new ObservableCollection<Absence>();
+            List<Entry> entries = new List<Entry> {};
             foreach (double hour in hours)
             {
                 if (hour != 0)
                 {
+                    entries.Add(new Entry (Convert.ToSingle(hour)) {
+                        Label = j + "-" + SelectedMonth + "-" + SelectedYear,
+                        ValueLabel = hour.ToString(),
+                        Color = SKColor.Parse("#607D8B")
+                    });
                     AbsenceHistory.Add(new Absence() { Date = j + "-" + SelectedMonth + "-" + SelectedYear, MissingHours = hour + " hours missed" });
                 }
                 j++;
             }
-
+            Chart1.Chart = new BarChart() { Entries = entries };
             AbsenceListView.ItemsSource = AbsenceHistory;
         } 
 
