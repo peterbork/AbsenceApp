@@ -7,6 +7,8 @@ using System.Text;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AbsenceApp.Controllers {
     public class AttendanceController {
@@ -41,6 +43,31 @@ namespace AbsenceApp.Controllers {
             HttpClient client = GetClient();
             string result = client.GetStringAsync(baseUrl + route).Result;
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
+        }
+
+        public async Task<string> RegisterAttendance(double lat, double lng)
+        {
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
+
+            var data = new { started_at = DateTime.Now, latitude = lat, longitude = lng, user_id = 1 };
+
+            var json = JsonConvert.SerializeObject(data, jsonSettings);
+            var payload = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpClient client = GetClient();            
+            
+            var httpResponse = await client.PostAsync(baseUrl + "attendance", payload);
+
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine(responseContent);
+                return "yes";
+            } else
+            {
+                return "no";
+            }
         }
     }
 }

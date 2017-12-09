@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace AbsenceApp.Controllers{
     public class LessonController{
@@ -45,6 +48,11 @@ namespace AbsenceApp.Controllers{
         {
             return now.Day == classesStart.Day && now < classesEnd ? true : false;
             //return true;
+        }
+
+        public void CheckIn()
+        {
+            Debug.WriteLine("Checking in from LessonController");
         }
     }
 }

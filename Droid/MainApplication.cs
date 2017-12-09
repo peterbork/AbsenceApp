@@ -6,6 +6,9 @@ using Android.Runtime;
 using Plugin.CurrentActivity;
 using Geofence.Plugin;
 using AbsenceApp.Helpers;
+using AbsenceApp.Droid.Helpers;
+using Android.Content;
+using Xamarin;
 
 namespace AbsenceApp.Droid
 {
@@ -13,6 +16,8 @@ namespace AbsenceApp.Droid
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
+        public static Context AppContext;
+
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           : base(handle, transer)
         {
@@ -23,8 +28,37 @@ namespace AbsenceApp.Droid
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
 
+            AppContext = this.ApplicationContext;
+
             //A great place to initialize Xamarin.Insights and Dependency Services!
             CrossGeofence.Initialize<CrossGeofenceListener>();
+
+            //Start a sticky service to keep receiving geofence events when app is closed.
+            StartService();
+        }
+
+        public static void StartService()
+        {
+            AppContext.StartService(new Intent(AppContext, typeof(GeofenceService)));
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+
+                PendingIntent pintent = PendingIntent.GetService(AppContext, 0, new Intent(AppContext, typeof(GeofenceService)), 0);
+                AlarmManager alarm = (AlarmManager)AppContext.GetSystemService(AlarmService);
+                alarm.Cancel(pintent);
+            }
+        }
+
+        public static void StopService()
+        {
+            AppContext.StopService(new Intent(AppContext, typeof(GeofenceService)));
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
+            {
+                PendingIntent pintent = PendingIntent.GetService(AppContext, 0, new Intent(AppContext, typeof(GeofenceService)), 0);
+                AlarmManager alarm = (AlarmManager)AppContext.GetSystemService(AlarmService);
+                alarm.Cancel(pintent);
+            }
         }
 
         public override void OnTerminate()

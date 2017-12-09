@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Xamarin.Forms.Maps;
 using Xamarin.Forms;
+using System.ComponentModel;
 using Plugin.Geolocator;
 using System.Threading.Tasks;
 using System.Diagnostics;
@@ -16,20 +17,30 @@ using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Pages
 {
-    public partial class CheckInPage : ContentPage
+    public partial class CheckInPage : ContentPage, INotifyPropertyChanged
     {
         Position ealLocation;
         LessonController lessonController;
         LocationController locationController;
+
+        public string statusText;
+
+        //https://material.io/guidelines/style/color.html#color-color-palette
 
         public CheckInPage()
         {
             InitializeComponent();
             Title = "Check-In";
 
+            BindingContext = this;
+
             locationController = LocationController.Instance;
             lessonController = new LessonController();
 
+            Debug.WriteLine("Busy: " + IsBusy);
+            //Debug.WriteLine(CheckInButtonText + "Check in setting: " + Settings.CheckedIn.ToString());
+
+            statusText = Settings.CheckedIn ? "Checked in" : "Checked out";
             CheckInButton.Text = Settings.CheckedIn ? "Check out" : "Check in";
 
             // Set automatic checkin toggle
@@ -65,33 +76,10 @@ namespace AbsenceApp.Pages
         }
 
         async void CheckInButtonClicked(object sender, EventArgs e) {
-            locationController.StartListener();
-            Debug.WriteLine("Within school: " + locationController.IsWithinSchool.ToString());
-            if (!Settings.CheckedIn)
-            {
-                // Check in
-                if (lessonController.hasClassesToday())
-                {
-                    if (!locationController.IsWithinSchool)
-                    {
-                        var answer = await DisplayAlert("Warning", "Your location isn't within school grounds. Check-in anyway?", "Yes", "No");
-                        if (answer)
-                        {
-                            locationController.CheckIn();
-                        } else
-                        {
-                            return;
-                        }
-                    }
-                    locationController.CheckIn();
-                }
-            } else
-            {
-                // Check out
-                locationController.CheckOut();
-            }
-            
-            locationController.GetLocation();
+            IsBusy = true;
+
+            await locationController.CheckIn();
+            IsBusy = false;
         }
     }
 }

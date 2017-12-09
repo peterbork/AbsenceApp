@@ -52,7 +52,8 @@ namespace AbsenceApp.Helpers
                 locationController.IsWithinSchool = true;
                 if (lessonController.hasClassesToday() && !Settings.CheckedIn && Settings.CheckinEnabled)
                 {
-                    locationController.CheckIn();
+                    // Implement automatic check in method
+                    //locationController.CheckIn();
                 }
             } else if (result.Transition.ToString() == "Exited" && Settings.CheckedIn)
             {
@@ -74,7 +75,7 @@ namespace AbsenceApp.Helpers
         public void OnLocationChanged(GeofenceLocation location)
         {
             Debug.WriteLine("Has classes: " + lessonController.hasClassesNow().ToString());
-            Debug.WriteLine("Location changed: " + location.ToString());
+            //Debug.WriteLine("Location changed: " + location.ToString());
         }
     }
 }
