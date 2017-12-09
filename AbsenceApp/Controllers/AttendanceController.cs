@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace AbsenceApp.Controllers {
     public class AttendanceController {
-        
+
         private string baseUrl = Settings.ApiUrl;
 
         private HttpClient GetClient() {
@@ -27,15 +27,11 @@ namespace AbsenceApp.Controllers {
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
 
-        public IEnumerable<Attendance> GetMonthly(int user_id, int? month = null, int? year = null)
-        {
+        public IEnumerable<Attendance> GetMonthly(int user_id, int? month = null, int? year = null) {
             string route = "";
-            if (month == null || year == null)
-            {
+            if (month == null || year == null) {
                 route = "attendance/user/" + user_id + "/monthly";
-            }
-            else
-            {
+            } else {
                 // Temporary mock data
                 route = "attendance/user/" + user_id + "/monthly/1/2018";
                 //route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
@@ -45,30 +41,27 @@ namespace AbsenceApp.Controllers {
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
 
-        public async Task<string> RegisterAttendance(double lat, double lng)
-        {
+        public async Task<bool> RegisterAttendance(double lat, double lng, DateTime timestamp) {
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
 
-            var data = new { started_at = DateTime.Now, latitude = lat, longitude = lng, user_id = 1 };
+            var data = new { started_at = timestamp, latitude = lat, longitude = lng, user_id = 1 };
 
             var json = JsonConvert.SerializeObject(data, jsonSettings);
             var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpClient client = GetClient();            
-            
+            HttpClient client = GetClient();
+            return true;
+
             var httpResponse = await client.PostAsync(baseUrl + "attendance", payload);
 
-            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
-            {
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK) {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
                 Debug.WriteLine(responseContent);
-                return "yes";
-            } else
-            {
-                return "no";
+                return true;
+            } else {
+                return false;
             }
         }
     }
 }
-    

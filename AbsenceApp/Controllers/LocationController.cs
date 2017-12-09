@@ -14,11 +14,11 @@ using System.Device.Location;
 using Geofence.Plugin;
 using Geofence.Plugin.Abstractions;
 
-namespace AbsenceApp.Controllers
-{
-    public sealed class LocationController
-    {
+namespace AbsenceApp.Controllers {
+    public sealed class LocationController {
         private static readonly LocationController instance = new LocationController();
+        CrossGeolocator crossGeolocator = new CrossGeolocator();
+
         AttendanceController attendanceController;
 
         public GeoCoordinate schoolPosition = new GeoCoordinate(55.4034637, 10.3795097);
@@ -37,10 +37,8 @@ namespace AbsenceApp.Controllers
             }
         }
 
-        public void StartListener()
-        {
-            if(!CrossGeofence.Current.IsMonitoring)
-            {
+        public void StartListener() {
+            if (!CrossGeofence.Current.IsMonitoring) {
                 GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", schoolPosition.Latitude, schoolPosition.Longitude, distance);
 
                 CrossGeofence.Current.StartMonitoring(region);
@@ -49,17 +47,16 @@ namespace AbsenceApp.Controllers
             Debug.WriteLine("Geofence status: " + CrossGeofence.Current.IsMonitoring);
         }
 
-        public double GetDistanceToSchool(double lat, double lng)
-        {
+        public double GetDistanceToSchool(double lat, double lng) {
             //position = new GeoCoordinate(lat, lng).;
             return new GeoCoordinate(lat, lng).GetDistanceTo(schoolPosition);
         }
 
-        public async Task<bool> CheckIsWithinSchool()
-        {
+        public async Task<Position> GetLocation() {
+            
             Position position = null;
-            try
-            {
+
+            try {
                 var locator = CrossGeolocator.Current;
 
                 Debug.WriteLine("Getting location by geolocator. " + locator.IsGeolocationAvailable.ToString());
@@ -68,80 +65,117 @@ namespace AbsenceApp.Controllers
 
                 //position = await locator.GetLastKnownLocationAsync();
 
-                if (position != null)
-                {
+                if (position != null) {
                     //got a cached position, so let's use it.
-                    return false;
+                    return null;
                 }
 
-                if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled)
-                {
+                if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) {
                     //not available or enabled
                     Debug.WriteLine("Geolocator unavailable");
-                    return false;
+                    return null;
                 }
 
-                position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5), null, true);
+                try {
+                    position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5), null, true);
+                } catch (Exception ex) {
+                    Debug.WriteLine(ex);
+                    return null;
+                }
 
-            }
-            catch (Exception ex)
-            {
+                
+                position.Timestamp = DateTime.Now;
+
+            } catch (Exception ex) {
                 //Display error as we have timed out or can't get location.
                 Debug.WriteLine(ex.ToString());
             }
 
             if (position == null)
-                return false;
+                return null;
 
-            //var output = string.Format("Time: {0} \nLat: {1} \nLong: {2} \nAltitude: {3} \nAltitude Accuracy: {4} \nAccuracy: {5} \nHeading: {6} \nSpeed: {7}",
-            //    position.Timestamp, position.Latitude, position.Longitude,
-            //    position.Altitude, position.AltitudeAccuracy, position.Accuracy, position.Heading, position.Speed);
-            
-            Debug.WriteLine(GetDistanceToSchool(position.Latitude, position.Longitude) <= distance ? true : false);
-
-            return IsWithinSchool = GetDistanceToSchool(position.Latitude, position.Longitude) <= distance ? true : false;
+            Debug.WriteLine("Position: " + position.Timestamp.ToString());
+            return position;
         }
 
-        public GeoCoordinate GetLocation()
-        {
-            StartListener();
-            CrossGeofence.RequestLocationPermission = true;
-            GeoCoordinate location = new GeoCoordinate(CrossGeofence.Current.LastKnownLocation.Latitude, CrossGeofence.Current.LastKnownLocation.Longitude);
-            Debug.WriteLine("Lat: " + location.Latitude + " lng: " + location.Longitude);
-            return location;
+        public bool CheckIsWithinSchool(double lat, double lng) {
+            return GetDistanceToSchool(lat, lng) <= distance ? true : false;
         }
 
-        //public bool CheckIfWithinSchool()
-        //{
-        //    //return IsWithinSchool = GetDistanceToSchool(GetLocation()) <= distance ? true : false;
-        //}
-
-        public async Task CheckIn()
-        {
-            //CheckIn();
-            //Application.Current.MainPage.st
+        public async Task CheckIn() {
+            if (!await HasPermission()) {
+                return;
+            }
             Debug.WriteLine("Checking in. Within school? " + IsWithinSchool.ToString());
 
-            if (!await CheckIsWithinSchool())
-            {
-                var answer = await Application.Current.MainPage.DisplayAlert("Warning", "Your location isn't within school grounds. Check in anyway?", "Yes", "No");
-                if (answer)
-                {
-                    await attendanceController.RegisterAttendance(10, 10);
-                }
-                else
-                {
+            Position currentPosition = await GetLocation();
+            var diff = (currentPosition.Timestamp - DateTime.Now).TotalMinutes;
+            Debug.WriteLine("Diff: " + diff);
+
+            // Check if obtained position is valid and recent
+            if (currentPosition == null || diff > 5) {
+                await Application.Current.MainPage.DisplayAlert("Error", "Could not get your current location", "OK");
+                return;
+            }
+
+            // Check if within school
+            if (CheckIsWithinSchool(currentPosition.Latitude, currentPosition.Longitude)) {
+                // Try to register attendance
+                if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
+                    Settings.CheckedIn = true;
+                } else {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Could not submit attendance", "OK");
                     return;
                 }
             } else {
-                await attendanceController.RegisterAttendance(10, 10);
+                // If not within school
+                var answer = await Application.Current.MainPage.DisplayAlert("Warning", "Your location isn't within school grounds. Check in anyway?", "Yes", "No");
+
+                if (answer) {
+                    // Try to register attendance
+                    if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
+                        Settings.CheckedIn = true;
+                    } else {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Could not submit attendance", "OK");
+                        return;
+                    }
+                } else {
+                    return;
+                }
             }
-            Application.Current.MainPage.IsBusy = false;
         }
 
-        public void CheckOut()
-        {
+        public void CheckOut() {
             Debug.WriteLine("Checking out");
+        }
+
+        public async Task<bool> HasPermission() {
+            Debug.WriteLine("Checking permissions");
+            try {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted) {
+                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location)) {
+                        await Application.Current.MainPage.DisplayAlert("Need location", "Gunna need that location", "OK");
+                    }
+
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
+                    //Best practice to always check that the key exists
+                    if (results.ContainsKey(Permission.Location))
+                        status = results[Permission.Location];
+                }
+
+                if (status == PermissionStatus.Granted) {
+                    Debug.WriteLine("Permission granted");
+                    return true;
+                } else /*if (status != PermissionStatus.Unknown)*/ {
+                    await Application.Current.MainPage.DisplayAlert("Permission denied", "Can not get your location. Check your settings.", "OK");
+                    return false;
+                }
+            } catch (Exception ex) {
+                Debug.WriteLine("Permission error: " + ex);
+                return false;
+                //Application.Current.MainPage.LabelGeolocation.Text = "Error: " + ex;
+            }
         }
     }
 }

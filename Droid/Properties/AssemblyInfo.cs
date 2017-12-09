@@ -13,6 +13,9 @@ using Android.App;
 [assembly: AssemblyCopyright("(c) Peter Bork Nielsen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: UsesFeature("android.hardware.location", Required = true)]
+[assembly: UsesFeature("android.hardware.location.gps", Required = true)]
+[assembly: UsesFeature("android.hardware.location.network", Required = true)]
 
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
