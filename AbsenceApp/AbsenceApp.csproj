@@ -46,7 +46,7 @@
     <Compile Include="Pages\AbsencePage.xaml.cs">
       <DependentUpon>AbsencePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Absence.cs" />
+    <Compile Include="Models\Absence.cs" />
     <Compile Include="Models\AbsenceMessage.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Controllers\AttendanceController.cs" />

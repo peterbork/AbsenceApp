@@ -30,8 +30,8 @@ namespace AbsenceApp.Controllers{
             if(month == null || year == null){
                 route = "lessons/monthly";
             }else{
-                //route = "lessons/monthly/" + month + "/" + year;
-                route = "lessons";
+                route = "lessons/monthly/" + month + "/" + year;
+                //route = "lessons";
             }
             HttpClient client = GetClient();
             string result = client.GetStringAsync(baseUrl + route).Result;

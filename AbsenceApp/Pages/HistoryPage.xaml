@@ -4,7 +4,8 @@
         <StackLayout>
             
             <StackLayout Padding="20, 30, 20, 20" Spacing="10" BackgroundColor="#f1f1f1">
-                <Picker Title="Select month" x:Name="MonthPicker"></Picker>
+                <Picker Title="Select month" x:Name="MonthPicker" SelectedIndexChanged="MonthPicker_SelectedIndexChanged"></Picker>
+                <Entry x:Name="YearEntry" TextChanged="YearEntry_TextChanged"></Entry>
             </StackLayout>
             
             <StackLayout>
