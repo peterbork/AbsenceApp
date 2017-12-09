@@ -15,10 +15,8 @@ using AbsenceApp.Controllers;
 using System.Device.Location;
 using AbsenceApp.Helpers;
 
-namespace AbsenceApp.Pages
-{
-    public partial class CheckInPage : ContentPage, INotifyPropertyChanged
-    {
+namespace AbsenceApp.Pages {
+    public partial class CheckInPage : ContentPage, INotifyPropertyChanged {
         Position ealLocation;
         LessonController lessonController;
         LocationController locationController;
@@ -27,8 +25,7 @@ namespace AbsenceApp.Pages
 
         //https://material.io/guidelines/style/color.html#color-color-palette
 
-        public CheckInPage()
-        {
+        public CheckInPage() {
             InitializeComponent();
             Title = "Check-In";
 
@@ -55,8 +52,7 @@ namespace AbsenceApp.Pages
                         //LogLocation();
                         return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
                     });
-                } else
-                {
+                } else {
                     //location = null;
                 }
             };
@@ -79,6 +75,7 @@ namespace AbsenceApp.Pages
             IsBusy = true;
 
             await locationController.CheckIn();
+            //await locationController.HasPermission();
             IsBusy = false;
         }
     }
