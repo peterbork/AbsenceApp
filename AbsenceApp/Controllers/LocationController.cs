@@ -82,7 +82,6 @@ namespace AbsenceApp.Controllers {
                     Debug.WriteLine(ex);
                     return null;
                 }
-
                 
                 position.Timestamp = DateTime.Now;
 
@@ -155,7 +154,7 @@ namespace AbsenceApp.Controllers {
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
                 if (status != PermissionStatus.Granted) {
                     if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location)) {
-                        await Application.Current.MainPage.DisplayAlert("Need location", "Gunna need that location", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Need location permission", "To use this app, location permission is required.", "OK");
                     }
 
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
@@ -167,8 +166,26 @@ namespace AbsenceApp.Controllers {
                 if (status == PermissionStatus.Granted) {
                     Debug.WriteLine("Permission granted");
                     return true;
-                } else /*if (status != PermissionStatus.Unknown)*/ {
-                    await Application.Current.MainPage.DisplayAlert("Permission denied", "Can not get your location. Check your settings.", "OK");
+                } else if (status == PermissionStatus.Denied) {
+                    if (Device.RuntimePlatform == Device.iOS) {
+                        var title = "Location permission required";
+                        var question = "To use this app, location permission is required. Please go into Settings and allow locations for the app.";
+                        var positive = "Settings";
+                        var negative = "Maybe Later";
+                        var task = Application.Current.MainPage.DisplayAlert(title, question, positive, negative);
+                        if (task == null)
+                            return false;
+                        var result = await task;
+                        if (result) {
+                            CrossPermissions.Current.OpenAppSettings();
+                        }
+                        //return false;
+                    } else {
+                        await Application.Current.MainPage.DisplayAlert("Permission denied", "Please go into Settings and allow locations for the app.", "OK");
+                    }
+                    return false;
+                } else {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Can not get your location. Check your privacy and location settings.", "OK");
                     return false;
                 }
             } catch (Exception ex) {
