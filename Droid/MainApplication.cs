@@ -31,10 +31,10 @@ namespace AbsenceApp.Droid
             AppContext = this.ApplicationContext;
 
             //A great place to initialize Xamarin.Insights and Dependency Services!
-            CrossGeofence.Initialize<CrossGeofenceListener>();
+            //CrossGeofence.Initialize<CrossGeofenceListener>();
 
             //Start a sticky service to keep receiving geofence events when app is closed.
-            StartService();
+            //StartService();
         }
 
         public static void StartService()
