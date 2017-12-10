@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AbsenceApp.Pages.SettingsPage">
+	<ContentPage.Content>
+        <StackLayout
+            Padding="20, 30, 20, 20" 
+            Spacing="10"
+        >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Label FontAttributes="Bold" Text="Logget ind som" />
+                <Label x:Name="SettingsName" Text="Dude" />
+            </StackLayout>
+
+            <Button
+                Text="Logud"
+                VerticalOptions="Center"
+                BackgroundColor="#006E79"
+                TextColor="White"
+                FontAttributes="Bold"
+                Margin="0,10,0,0"
+                Clicked="Logout"
+            />
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

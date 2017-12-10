@@ -6,7 +6,7 @@ namespace AbsenceApp.Pages
 {
     public class MainPage : TabbedPage
     {
-        User user;
+        public User user;
 
         public MainPage()
         {
@@ -21,10 +21,13 @@ namespace AbsenceApp.Pages
 
             var navigationPage = new NavigationPage(checkInPage);
             navigationPage.Title = "Check-in";
+            SettingsPage settingsPage = new SettingsPage();
+            settingsPage.setMainPage(this);
 
             Children.Add(navigationPage);
             Children.Add(new AbsencePage());
             Children.Add(new HistoryPage());
+            Children.Add(settingsPage);
         }
 
         private void ShowLoginPage()
@@ -39,6 +42,14 @@ namespace AbsenceApp.Pages
         public void login(User user)
         {
             this.user = user;
+        }
+
+        public void Logout() {
+            this.user.name = String.Empty;
+            this.user.id = 0;
+            this.user.api_token = String.Empty;
+            this.user.group_id = 0;
+            ShowLoginPage();
         }
     }
 }
