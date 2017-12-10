@@ -26,7 +26,7 @@ namespace AbsenceApp.Pages
 
             Children.Add(navigationPage);
             Children.Add(new AbsencePage());
-            Children.Add(new HistoryPage());
+            Children.Add(new HistoryPage(this));
             Children.Add(settingsPage);
         }
 

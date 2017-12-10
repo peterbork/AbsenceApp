@@ -14,8 +14,13 @@ namespace AbsenceApp.Pages {
 
     public partial class HistoryPage : ContentPage {
 
-        public HistoryPage() {
+        MainPage mainPage;
+
+        public HistoryPage(MainPage mainPage) {
+
             InitializeComponent();
+            this.mainPage = mainPage;
+
             Title = "History";
             DateTime LanuchDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
             DateTime currentDate = DateTime.Now;
@@ -49,7 +54,7 @@ namespace AbsenceApp.Pages {
         }
 
         public void FindAbsence(int SelectedMonth, int SelectedYear) {
-            int user_id = 1;
+            int user_id = mainPage.user.id;
             LessonController _LessonController = new LessonController();
 
             var lessons = _LessonController.GetMonthly(SelectedMonth, SelectedYear);
