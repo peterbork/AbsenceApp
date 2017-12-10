@@ -14,6 +14,8 @@ using AbsenceApp.Models;
 using AbsenceApp.Controllers;
 using System.Device.Location;
 using AbsenceApp.Helpers;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 namespace AbsenceApp.Pages {
     public partial class CheckInPage : ContentPage, INotifyPropertyChanged {
@@ -74,7 +76,8 @@ namespace AbsenceApp.Pages {
         async void CheckInButtonClicked(object sender, EventArgs e) {
             IsBusy = true;
 
-            await locationController.CheckIn();
+            await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+            //await locationController.CheckIn();
             //await locationController.HasPermission();
             IsBusy = false;
         }
