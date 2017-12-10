@@ -15,7 +15,7 @@ namespace AbsenceApp.Pages
         public SettingsPage()
         {
             InitializeComponent();
-            Title = "Indstillinger";
+            Title = "Settings";
         }
 
         public void setMainPage(MainPage mainPage) 
