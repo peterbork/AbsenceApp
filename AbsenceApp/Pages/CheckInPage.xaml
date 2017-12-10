@@ -3,10 +3,10 @@
 	<ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <StackLayout BackgroundColor="#f5f5f5" VerticalOptions="StartAndExpand">
-                <maps:Map WidthRequest="100" HeightRequest="300"
+                <!--<maps:Map WidthRequest="100" HeightRequest="300"
                     x:Name="MyMap"
                     IsShowingUser="true" 
-                    MapType="Hybrid" />
+                    MapType="Hybrid" />-->
                 <StackLayout Orientation="Horizontal" Padding="20, 20, 20, 20" BackgroundColor="#eeeeee">
                     <Label Text="Status:"></Label>
                     <Label Text="{Binding statusText}" FontAttributes="Bold" HorizontalOptions="EndAndExpand"></Label>

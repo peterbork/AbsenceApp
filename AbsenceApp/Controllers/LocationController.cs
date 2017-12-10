@@ -65,22 +65,23 @@ namespace AbsenceApp.Controllers {
 
                 //position = await locator.GetLastKnownLocationAsync();
 
-                if (position != null) {
-                    //got a cached position, so let's use it.
-                    return null;
-                }
+                //if (position != null) {
+                //    //got a cached position, so let's use it.
+                //    return null;
+                //}
 
                 if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) {
                     //not available or enabled
                     Debug.WriteLine("Geolocator unavailable");
-                    return null;
+
+                    return position;
                 }
 
                 try {
                     position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5), null, true);
                 } catch (Exception ex) {
                     Debug.WriteLine(ex);
-                    return null;
+                    return position;
                 }
                 
                 position.Timestamp = DateTime.Now;
@@ -91,7 +92,7 @@ namespace AbsenceApp.Controllers {
             }
 
             if (position == null)
-                return null;
+                return position;
 
             Debug.WriteLine("Position: " + position.Timestamp.ToString());
             return position;
@@ -105,14 +106,22 @@ namespace AbsenceApp.Controllers {
             if (!await HasPermission()) {
                 return;
             }
+
             Debug.WriteLine("Checking in. Within school? " + IsWithinSchool.ToString());
 
             Position currentPosition = await GetLocation();
+
+            // Check if obtained position is valid
+            if (currentPosition == null) {
+                await Application.Current.MainPage.DisplayAlert("Error", "Could not get your current location", "OK");
+                return;
+            }
+
             var diff = (currentPosition.Timestamp - DateTime.Now).TotalMinutes;
             Debug.WriteLine("Diff: " + diff);
 
-            // Check if obtained position is valid and recent
-            if (currentPosition == null || diff > 5) {
+            // Check if obtained position is recent
+            if (diff > 5) {
                 await Application.Current.MainPage.DisplayAlert("Error", "Could not get your current location", "OK");
                 return;
             }
