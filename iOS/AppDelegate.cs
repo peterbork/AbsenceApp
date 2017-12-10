@@ -19,7 +19,7 @@ namespace AbsenceApp.iOS
             LoadApplication(new App());
             Xamarin.FormsMaps.Init();
 
-            //CrossGeofence.Initialize<CrossGeofenceListener>();
+            CrossGeofence.Initialize<CrossGeofenceListener>();
 
             return base.FinishedLaunching(app, options);
         }

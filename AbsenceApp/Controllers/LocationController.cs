@@ -82,6 +82,7 @@ namespace AbsenceApp.Controllers {
                     Debug.WriteLine(ex);
                     return null;
                 }
+
                 
                 position.Timestamp = DateTime.Now;
 
@@ -109,6 +110,7 @@ namespace AbsenceApp.Controllers {
 
             Position currentPosition = await GetLocation();
             var diff = (currentPosition.Timestamp - DateTime.Now).TotalMinutes;
+            Debug.WriteLine("Diff: " + diff);
 
             // Check if obtained position is valid and recent
             if (currentPosition == null || diff > 5) {

@@ -41,7 +41,7 @@ namespace AbsenceApp.Pages {
             CheckInButton.Text = Settings.CheckedIn ? "Check out" : "Check in";
 
             // Set automatic checkin toggle
-            //automaticOn.IsToggled = Settings.CheckinEnabled;
+            automaticOn.IsToggled = Settings.CheckinEnabled;
 
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled) {
@@ -73,16 +73,9 @@ namespace AbsenceApp.Pages {
 
         async void CheckInButtonClicked(object sender, EventArgs e) {
             IsBusy = true;
-            if (!Settings.CheckedIn) {
-                
 
-                await locationController.CheckIn();
-                //await locationController.HasPermission();
-                
-            } else {
-                Settings.CheckedIn = false;
-                locationController.CheckOut();
-            }
+            await locationController.CheckIn();
+            //await locationController.HasPermission();
             IsBusy = false;
         }
     }
