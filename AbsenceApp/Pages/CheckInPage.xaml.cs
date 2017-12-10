@@ -48,7 +48,7 @@ namespace AbsenceApp.Pages {
             automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
                 if (automaticOn.IsToggled) {
 
-                    locationController.StartListener();
+                    //locationController.StartListener();
                     Device.StartTimer(TimeSpan.FromSeconds(5), () => {
                         //GetLocation();
                         //LogLocation();
@@ -74,9 +74,12 @@ namespace AbsenceApp.Pages {
         }
 
         async void CheckInButtonClicked(object sender, EventArgs e) {
-            IsBusy = true;
+            //IsBusy = true;
+            if (await locationController.HasPermission()) {
+                Debug.WriteLine("Has permission - success");
+            }
 
-            await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+
             //await locationController.CheckIn();
             //await locationController.HasPermission();
             IsBusy = false;
