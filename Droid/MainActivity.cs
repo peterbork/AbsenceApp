@@ -8,7 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
+//using Plugin.Permissions.Abstractions;
 
 namespace AbsenceApp.Droid
 {
@@ -30,7 +30,7 @@ namespace AbsenceApp.Droid
             LoadApplication(new App());
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults) {
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults) {
             System.Diagnostics.Debug.WriteLine("Permission requested in main activity");
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }

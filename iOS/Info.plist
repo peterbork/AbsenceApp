@@ -48,6 +48,8 @@
 	<string>We are using your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We are using your location</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Needed to make permissions work properly</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
