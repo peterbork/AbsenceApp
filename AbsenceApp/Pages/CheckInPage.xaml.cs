@@ -30,7 +30,7 @@ namespace AbsenceApp.Pages {
         public CheckInPage() {
             InitializeComponent();
             Title = "Check-In";
-
+            Icon = "check-in.png";
             BindingContext = this;
 
             locationController = LocationController.Instance;

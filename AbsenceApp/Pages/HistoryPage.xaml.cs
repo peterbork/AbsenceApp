@@ -22,6 +22,8 @@ namespace AbsenceApp.Pages {
             this.mainPage = mainPage;
 
             Title = "History";
+            Icon = "History2.png";
+
             DateTime LanuchDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
             DateTime currentDate = DateTime.Now;
 
