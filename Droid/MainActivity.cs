@@ -21,12 +21,12 @@ namespace AbsenceApp.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             //RequestWindowFeature(WindowFeatures.NoTitle);
-            Xamarin.FormsMaps.Init(this, bundle);
+            
             base.OnCreate(bundle);
 
             Forms.Init(this, bundle);
-            
-            
+            Xamarin.FormsMaps.Init(this, bundle);
+
 
             LoadApplication(new App());
         }

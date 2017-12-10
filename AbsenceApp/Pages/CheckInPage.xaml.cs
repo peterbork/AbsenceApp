@@ -68,20 +68,21 @@ namespace AbsenceApp.Pages {
                 Address = "Erhvervsakademiet Lillebælt"
             };
 
-            MyMap.Pins.Add(pin);
-            MyMap.HasZoomEnabled = true;
-            MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
+            //MyMap.Pins.Add(pin);
+            //MyMap.HasZoomEnabled = true;
+            //MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
         }
 
         async void CheckInButtonClicked(object sender, EventArgs e) {
-            //IsBusy = true;
-            if (await locationController.HasPermission()) {
-                Debug.WriteLine("Has permission - success");
+            IsBusy = true;
+            if (Settings.CheckedIn) {
+                locationController.CheckOut();
+                Settings.CheckedIn = false;
+            } else {
+                await locationController.CheckIn();
+                //Settings.CheckedIn = true;
             }
 
-
-            //await locationController.CheckIn();
-            //await locationController.HasPermission();
             IsBusy = false;
         }
     }
