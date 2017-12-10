@@ -14,15 +14,12 @@ namespace AbsenceApp.Pages
 {
     public partial class LoginPage : ContentPage
     {
+        MainPage mainPage;
 
-        public LoginPage()
+        public LoginPage(MainPage mainPage)
         {
             InitializeComponent();
-            //this.mainPage = mainPage;
-
-            GetCredentials();
-
-            //Debug.WriteLine(Username);
+            this.mainPage = mainPage;
         }
 
         void UsernameCompleted(object sender, EventArgs e) {
@@ -59,30 +56,8 @@ namespace AbsenceApp.Pages
 
             User user = JsonConvert.DeserializeObject<User>(await response.Content.ReadAsStringAsync());
 
-            SaveCredentials(username, password);
-
             //this.mainPage.login(user);
             await Navigation.PopModalAsync();
-        }
-
-        public void SaveCredentials(string userName, string password)
-        {
-            if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(password))
-            {
-                Settings.UserName = userName;
-                Settings.UserPassword = password;
-                Debug.WriteLine("Credentials saved");
-            }
-        }
-
-        public void GetCredentials()
-        {
-            if (!string.IsNullOrWhiteSpace(Settings.UserName) && !string.IsNullOrWhiteSpace(Settings.UserPassword))
-            {
-                UsernameInput.Text = Settings.UserName;
-                PasswordInput.Text = Settings.UserPassword;
-                Debug.WriteLine("Credentials loaded");
-            }
         }
     }
 }

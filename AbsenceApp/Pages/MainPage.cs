@@ -10,7 +10,11 @@ namespace AbsenceApp.Pages
 
         public MainPage()
         {
-            this.showLoginPage();
+            user = new User();
+            if (user.api_token == String.Empty)
+            {
+                ShowLoginPage();
+            }
 
             CheckInPage checkInPage = new CheckInPage();
             NavigationPage.SetHasNavigationBar(checkInPage, false);
@@ -23,13 +27,13 @@ namespace AbsenceApp.Pages
             Children.Add(new HistoryPage());
         }
 
-        private void showLoginPage()
+        private void ShowLoginPage()
         {
-            //LoginPage loginPage = new LoginPage(this);
-            //.SetHasNavigationBar(loginPage, false);
-            //NavigationPage loginNavigationPage = new NavigationPage(loginPage);
+            LoginPage loginPage = new LoginPage(this);
+            NavigationPage.SetHasNavigationBar(loginPage, false);
+            NavigationPage loginNavigationPage = new NavigationPage(loginPage);
 
-            //Navigation.PushModalAsync(loginNavigationPage);
+            Navigation.PushModalAsync(loginNavigationPage);
         }
 
         public void login(User user)
