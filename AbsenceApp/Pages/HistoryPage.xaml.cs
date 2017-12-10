@@ -15,24 +15,29 @@ namespace AbsenceApp.Pages {
     public partial class HistoryPage : ContentPage {
 
         public HistoryPage() {
-             
-
             InitializeComponent();
             Title = "History";
-            DateTime startDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
+            DateTime LanuchDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
             DateTime currentDate = DateTime.Now;
 
             string[] months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             List<string> monthArray = new List<string>();
+            List<string> yearArray = new List<string>();
 
-            int i = 0;
+            var startDate = LanuchDate;
             while (startDate <= currentDate) {
                 monthArray.Add(months[startDate.Month - 1]);
                 startDate = startDate.AddMonths(1);
-                i++;
             }
 
-            YearEntry.Text = DateTime.Now.Year.ToString();
+            startDate = LanuchDate;
+            while (startDate <= currentDate.AddYears(1)){
+                yearArray.Add(startDate.Year.ToString());
+                startDate = startDate.AddYears(1);
+            }
+
+            YearPicker.ItemsSource = yearArray;
+            YearPicker.SelectedIndex = 0;
 
             MonthPicker.ItemsSource = monthArray;
             MonthPicker.SelectedIndex = DateTime.Now.Month - 1;
@@ -67,39 +72,37 @@ namespace AbsenceApp.Pages {
             var NotAttendedLessons = lessons.ToList().Except(Lessonstest);
 
             double[] hours = new double[32];
-            foreach (Lesson NotAttendedLessonsEdited in NotAttendedLessons)
-            {
+            foreach (Lesson NotAttendedLessonsEdited in NotAttendedLessons){
                 hours[NotAttendedLessonsEdited.start.Day] = hours[NotAttendedLessonsEdited.start.Day] + (NotAttendedLessonsEdited.end - NotAttendedLessonsEdited.start).TotalHours;
             }
 
             int j = 0;
             ObservableCollection<Absence> AbsenceHistory = new ObservableCollection<Absence>();
             List<Entry> entries = new List<Entry> {};
-            foreach (double hour in hours)
-            {
-                if (hour != 0)
-                {
+            foreach (double hour in hours){
+                if (hour != 0){
                     entries.Add(new Entry (Convert.ToSingle(hour)) {
-                        Label = j + "-" + SelectedMonth + "-" + SelectedYear,
+                        Label = j + ".",
                         ValueLabel = hour.ToString(),
                         Color = SKColor.Parse("#607D8B")
-                    });
-                    AbsenceHistory.Add(new Absence() { Date = j + "-" + SelectedMonth + "-" + SelectedYear, MissingHours = hour + " hours missed" });
+                    }
+                    );
+                    AbsenceHistory.Add(new Absence() { Date = j + "/" + SelectedMonth + "/" + SelectedYear, MissingHours = hour + " hours missed" });
                 }
                 j++;
             }
-            Chart1.Chart = new BarChart() { Entries = entries };
+            AbsenceChart.Chart = new BarChart() { Entries = entries };
+            AbsenceChart.Chart.LabelTextSize = 40;
+            AbsenceChart.BackgroundColor = Color.FromHex("#ff0000");
             AbsenceListView.ItemsSource = AbsenceHistory;
         } 
 
-        private void MonthPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FindAbsence(MonthPicker.SelectedIndex + 1, int.Parse(YearEntry.Text));
+        private void MonthPicker_SelectedIndexChanged(object sender, EventArgs e){
+            FindAbsence(MonthPicker.SelectedIndex + 1, int.Parse(YearPicker.SelectedItem.ToString()));
         }
 
-        private void YearEntry_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            FindAbsence(MonthPicker.SelectedIndex + 1, int.Parse(YearEntry.Text));
+        private void YearPicker_SelectedIndexChanged(object sender, EventArgs e){
+            FindAbsence(MonthPicker.SelectedIndex + 1, int.Parse(YearPicker.SelectedItem.ToString()));
         }
     }
 }

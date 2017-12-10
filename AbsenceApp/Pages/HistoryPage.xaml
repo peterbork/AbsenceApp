@@ -5,14 +5,16 @@
              xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
 	<ContentPage.Content>
         <StackLayout>
-            
-            <StackLayout Padding="20, 30, 20, 20" Spacing="10" BackgroundColor="#f1f1f1">
-                <Picker Title="Select month" x:Name="MonthPicker" SelectedIndexChanged="MonthPicker_SelectedIndexChanged"></Picker>
-                <Entry x:Name="YearEntry" TextChanged="YearEntry_TextChanged"></Entry>
+
+            <StackLayout Padding="20, 30, 20, 20" Spacing="10" BackgroundColor="#f1f1f1" Orientation="Horizontal">
+                <Picker Title="Select month" x:Name="MonthPicker" SelectedIndexChanged="MonthPicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand"></Picker>
+                <Picker Title="Select Year" x:Name="YearPicker" SelectedIndexChanged="YearPicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand"></Picker>
             </StackLayout>
             
             <StackLayout>
-                <forms:ChartView x:Name="Chart1"/>
+                <forms:ChartView x:Name="AbsenceChart" 
+                                 HeightRequest="150"
+                                 HorizontalOptions="FillAndExpand"/>
             </StackLayout>
             
             <StackLayout>
