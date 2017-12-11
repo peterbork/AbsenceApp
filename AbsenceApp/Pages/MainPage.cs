@@ -21,7 +21,10 @@ namespace AbsenceApp.Pages
 
             var navigationPage = new NavigationPage(checkInPage);
             navigationPage.Title = "Check-in";
-            //navigationPage.Icon = "check-in.png";
+
+            if (Device.RuntimePlatform == Device.iOS) {
+                Icon = "checkin.png";
+            }
             SettingsPage settingsPage = new SettingsPage();
             settingsPage.setMainPage(this);
 

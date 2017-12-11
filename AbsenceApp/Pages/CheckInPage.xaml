@@ -24,6 +24,15 @@
                     FontAttributes="Bold"
                     Margin="0,10,0,0">
                     </Button>
+                    <Button 
+                    x:Name="StatusButton"
+                    Clicked="StatusButtonClicked"
+                    Text="Get status"
+                    BackgroundColor="#006E79"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Margin="0,10,0,0">
+                    </Button>
                 </StackLayout>
             </StackLayout>
             <ContentView x:Name="bgLayer"

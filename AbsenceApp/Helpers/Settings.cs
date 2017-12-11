@@ -62,7 +62,7 @@ namespace AbsenceApp.Helpers
             set { AppSettings.AddOrUpdateValue(CheckinEnabledKey, value); }
         }
 
-        private const string CheckedInKey = "checkinEnabled_key";
+        private const string CheckedInKey = "checkedIn_key";
         private static readonly bool CheckedInDefault = false;
 
         public static bool CheckedIn {

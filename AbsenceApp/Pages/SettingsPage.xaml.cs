@@ -16,7 +16,10 @@ namespace AbsenceApp.Pages
         {
             InitializeComponent();
             Title = "Settings";
-            //Icon = "settings.png";
+
+            if (Device.RuntimePlatform == Device.iOS) {
+                Icon = "settings.png";
+            }
         }
 
         public void setMainPage(MainPage mainPage) 

@@ -28,7 +28,11 @@ namespace AbsenceApp.Pages {
         public CheckInPage() {
             InitializeComponent();
             Title = "Check-In";
-            //Icon = "check-in.png";
+            
+            if (Device.RuntimePlatform == Device.iOS) {
+                Icon = "checkin.png";
+            }
+
             BindingContext = this;
 
             locationController = LocationController.Instance;
@@ -36,6 +40,9 @@ namespace AbsenceApp.Pages {
 
             Debug.WriteLine("Busy: " + IsBusy);
             //Debug.WriteLine(CheckInButtonText + "Check in setting: " + Settings.CheckedIn.ToString());
+
+            // For debugging
+            Settings.CheckedIn = false;
 
             statusText = Settings.CheckedIn ? "Checked in" : "Checked out";
             CheckInButton.Text = Settings.CheckedIn ? "Check out" : "Check in";
@@ -90,6 +97,10 @@ namespace AbsenceApp.Pages {
             }
 
             IsBusy = false;
+        }
+
+        async void StatusButtonClicked(object sender, EventArgs e) {
+            Debug.WriteLine(Settings.CheckedIn);
         }
     }
 }

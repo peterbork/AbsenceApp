@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AbsenceApp.Controllers;
 using AbsenceApp.Helpers;
+using Xamarin.Forms;
 
 namespace AbsenceApp.Helpers {
     //Class to handle geofence events such as start/stop monitoring, region state changes and errors.
     public class CrossGeofenceListener : IGeofenceListener {
         LessonController lessonController;
+        AttendanceController attendanceController;
         LocationController locationController;
 
         public CrossGeofenceListener() {
             lessonController = new LessonController();
             locationController = LocationController.Instance;
+            attendanceController = new AttendanceController();
         }
 
         public void OnMonitoringStarted(string region) {
@@ -39,16 +42,18 @@ namespace AbsenceApp.Helpers {
 
         public void OnRegionStateChanged(GeofenceResult result) {
             // Entered/Exited
+            Application.Current.MainPage.IsBusy = true;
             if (result.Transition.ToString() == "Entered") {
                 locationController.IsWithinSchool = true;
                 if (lessonController.hasClassesToday() && !Settings.CheckedIn && Settings.CheckinEnabled) {
                     // Implement automatic check in method
-                    //locationController.CheckIn();
+                    locationController.CheckInAutomatic();
                 }
             } else if (result.Transition.ToString() == "Exited" && Settings.CheckedIn) {
                 locationController.IsWithinSchool = false;
                 locationController.CheckOut();
             }
+            Application.Current.MainPage.IsBusy = true;
 
             Debug.WriteLine(result.Transition.ToString());
 

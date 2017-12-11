@@ -51,8 +51,6 @@ namespace AbsenceApp.Controllers {
             } else {
                 return false;
             }
-
-            
         }
 
         public double GetDistanceToSchool(double lat, double lng) {
@@ -158,6 +156,20 @@ namespace AbsenceApp.Controllers {
                 } else {
                     return;
                 }
+            }
+        }
+
+        public async void CheckInAutomatic() {
+            Position currentPosition = await GetLocation();
+            Debug.WriteLine("Automatic check in called");
+            // Check if obtained position is valid
+            if (currentPosition == null) {
+                return;
+            } else {
+                if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
+                    Settings.CheckedIn = true;
+                }
+                
             }
         }
 
