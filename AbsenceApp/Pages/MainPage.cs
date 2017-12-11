@@ -21,7 +21,7 @@ namespace AbsenceApp.Pages
 
             var navigationPage = new NavigationPage(checkInPage);
             navigationPage.Title = "Check-in";
-            navigationPage.Icon = "check-in.png";
+            //navigationPage.Icon = "check-in.png";
             SettingsPage settingsPage = new SettingsPage();
             settingsPage.setMainPage(this);
 

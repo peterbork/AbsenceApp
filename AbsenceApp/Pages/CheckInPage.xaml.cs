@@ -25,12 +25,10 @@ namespace AbsenceApp.Pages {
 
         public string statusText;
 
-        //https://material.io/guidelines/style/color.html#color-color-palette
-
         public CheckInPage() {
             InitializeComponent();
             Title = "Check-In";
-            Icon = "check-in.png";
+            //Icon = "check-in.png";
             BindingContext = this;
 
             locationController = LocationController.Instance;
@@ -45,19 +43,16 @@ namespace AbsenceApp.Pages {
             // Set automatic checkin toggle
             automaticOn.IsToggled = Settings.CheckinEnabled;
 
-            automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
-                if (automaticOn.IsToggled) {
+            //automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
+            //    if (automaticOn.IsToggled) {
 
-                    //locationController.StartListener();
-                    Device.StartTimer(TimeSpan.FromSeconds(5), () => {
-                        //GetLocation();
-                        //LogLocation();
-                        return automaticOn.IsToggled; // should be only be true, when classes are active. or switch is turned on
-                    });
-                } else {
-                    //location = null;
-                }
-            };
+            //        await locationController.StartListener();
+
+            //    } else {
+            //        Settings.CheckinEnabled = false;
+            //    }
+            //    automaticOn.IsToggled = Settings.CheckinEnabled;
+            //};
 
             ealLocation = new Position(locationController.schoolPosition.Latitude, locationController.schoolPosition.Longitude); // Latitude, Longitude
 
@@ -68,9 +63,20 @@ namespace AbsenceApp.Pages {
                 Address = "Erhvervsakademiet Lillebælt"
             };
 
-            //MyMap.Pins.Add(pin);
-            //MyMap.HasZoomEnabled = true;
-            //MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
+            MyMap.Pins.Add(pin);
+            MyMap.HasZoomEnabled = true;
+            MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
+        }
+
+        async void ToggleAutomaticCheckin(object sender, EventArgs e) {
+            if (automaticOn.IsToggled) {
+                if (await locationController.StartListener()) {
+                    Settings.CheckinEnabled = true;
+                }
+            } else {
+                Settings.CheckinEnabled = false;
+            }
+            automaticOn.IsToggled = Settings.CheckinEnabled;
         }
 
         async void CheckInButtonClicked(object sender, EventArgs e) {

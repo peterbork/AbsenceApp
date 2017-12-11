@@ -16,7 +16,7 @@ namespace AbsenceApp.Pages
         {
             InitializeComponent();
             Title = "Settings";
-            Icon = "settings.png";
+            //Icon = "settings.png";
         }
 
         public void setMainPage(MainPage mainPage) 

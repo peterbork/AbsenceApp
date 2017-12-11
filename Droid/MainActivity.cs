@@ -10,6 +10,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.OS;
 using Plugin.Permissions;
+using Geofence.Plugin;
+using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Droid
 {
@@ -27,6 +29,9 @@ namespace AbsenceApp.Droid
             Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
 
+            //if (Settings.CheckinEnabled) {
+            //    //CrossGeofence.Initialize<CrossGeofenceListener>();
+            //}
 
             LoadApplication(new App());
         }

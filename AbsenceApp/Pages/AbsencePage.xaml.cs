@@ -12,7 +12,7 @@ namespace AbsenceApp.Pages
         {
             InitializeComponent();
             Title = "Absence";
-            Icon = "absence.png";
+            //Icon = "absence.png";
         }
         void SubmitAbsence(object sender, System.EventArgs e) {
             var user_id = 1; // hard coded for now

@@ -37,14 +37,22 @@ namespace AbsenceApp.Controllers {
             }
         }
 
-        public void StartListener() {
-            if (!CrossGeofence.Current.IsMonitoring) {
-                GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", schoolPosition.Latitude, schoolPosition.Longitude, distance);
+        public async Task<bool> StartListener() {
+            if (await HasPermission()) {
+                CrossGeofence.Initialize<CrossGeofenceListener>();
 
-                CrossGeofence.Current.StartMonitoring(region);
+                if (!CrossGeofence.Current.IsMonitoring) {
+                    GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", schoolPosition.Latitude, schoolPosition.Longitude, distance);
+
+                    CrossGeofence.Current.StartMonitoring(region);
+                    Debug.WriteLine("Geofence status: " + CrossGeofence.Current.IsMonitoring);
+                }
+                return true;
+            } else {
+                return false;
             }
 
-            Debug.WriteLine("Geofence status: " + CrossGeofence.Current.IsMonitoring);
+            
         }
 
         public double GetDistanceToSchool(double lat, double lng) {
