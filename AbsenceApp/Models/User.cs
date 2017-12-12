@@ -23,6 +23,11 @@ namespace AbsenceApp.Models
             set => AppSettings.AddOrUpdateValue(nameof(group_id), value);
         }
 
+        public DateTime latest_checkin {
+            get => AppSettings.GetValueOrDefault(nameof(latest_checkin), new DateTime());
+            set => AppSettings.AddOrUpdateValue(nameof(latest_checkin), value);
+        }
+
         private static ISettings AppSettings => CrossSettings.Current;
 
         /*public User(int id, string name, string api_token, int group_id) {

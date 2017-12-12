@@ -9,9 +9,11 @@ using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using AbsenceApp.Models;
 
 namespace AbsenceApp.Controllers {
     public class AttendanceController {
+        User currentUser = new User();
 
         private string baseUrl = Settings.ApiUrl;
 
@@ -41,7 +43,7 @@ namespace AbsenceApp.Controllers {
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
 
-        public async Task<bool> RegisterAttendance(double lat, double lng, DateTime timestamp) {
+        public async Task<bool> CheckIn(double lat, double lng, DateTime timestamp) {
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
 
@@ -52,13 +54,40 @@ namespace AbsenceApp.Controllers {
 
             HttpClient client = GetClient();
             Debug.WriteLine("Registered attendance");
-            return true;
+            //return true;
 
             var httpResponse = await client.PostAsync(baseUrl + "attendance", payload);
 
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK) {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                Debug.WriteLine(responseContent);
+
+                // Update current user
+                currentUser.latest_checkin = timestamp;
+                Settings.CheckedInId = Int16.Parse(responseContent);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public async Task<bool> CheckOut() {
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
+
+            var data = new { id = Settings.CheckedInId, user_id = currentUser.id, ended_at = DateTime.Now };
+
+            var json = JsonConvert.SerializeObject(data, jsonSettings);
+            var payload = new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpClient client = GetClient();
+            
+            var httpResponse = await client.PutAsync(baseUrl + "attendance", payload);
+
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK) {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+                // Update current user
+                Settings.CheckedInId = 0;
                 return true;
             } else {
                 return false;

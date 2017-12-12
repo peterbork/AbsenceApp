@@ -3,16 +3,19 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using AbsenceApp.Helpers;
 using Geofence.Plugin;
+using AbsenceApp.Models;
 
 namespace AbsenceApp
 {
     public class App : Application
     {
         //ILocation location;
+        User currentUser;
 
         public App()
         {
             MainPage = new Pages.MainPage();
+            currentUser = new User();
         }
 
         public static string AppName { get { return "AbsenceApp"; } }
@@ -20,7 +23,13 @@ namespace AbsenceApp
         protected override void OnStart()
         {
             // Handle when your app starts
-            
+
+            // Check if the latest check in is out of date
+            if (currentUser.latest_checkin.Date != DateTime.Now.Date && currentUser.latest_checkin.Month != DateTime.Now.Month) {
+                Debug.WriteLine("Old checkin: " + Settings.CheckedInId);
+                Settings.CheckedInId = 0;
+            }
+
             //location = DependencyService.Get<ILocation>();
             //location.locationObtained += (object sender, ILocationEventArgs e) =>
             //{

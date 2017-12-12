@@ -135,9 +135,7 @@ namespace AbsenceApp.Controllers {
             // Check if within school
             if (CheckIsWithinSchool(currentPosition.Latitude, currentPosition.Longitude)) {
                 // Try to register attendance
-                if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
-                    Settings.CheckedIn = true;
-                } else {
+                if (!await attendanceController.CheckIn(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
                     await Application.Current.MainPage.DisplayAlert("Error", "Could not submit attendance", "OK");
                     return;
                 }
@@ -147,9 +145,7 @@ namespace AbsenceApp.Controllers {
 
                 if (answer) {
                     // Try to register attendance
-                    if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
-                        Settings.CheckedIn = true;
-                    } else {
+                    if (!await attendanceController.CheckIn(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
                         await Application.Current.MainPage.DisplayAlert("Error", "Could not submit attendance", "OK");
                         return;
                     }
@@ -166,15 +162,17 @@ namespace AbsenceApp.Controllers {
             if (currentPosition == null) {
                 return;
             } else {
-                if (await attendanceController.RegisterAttendance(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
-                    Settings.CheckedIn = true;
+                if (await attendanceController.CheckIn(currentPosition.Latitude, currentPosition.Longitude, currentPosition.Timestamp.DateTime)) {
+                    return;
                 }
                 
             }
         }
 
-        public void CheckOut() {
-            Debug.WriteLine("Checking out");
+        public async Task CheckOut() {
+            if (!await attendanceController.CheckOut()) {
+                await Application.Current.MainPage.DisplayAlert("Error", "An error occured. Could not check out.", "OK");
+            }
         }
 
         public async Task<bool> HasPermission() {

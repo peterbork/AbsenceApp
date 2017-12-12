@@ -30,7 +30,7 @@ namespace AbsenceApp.Helpers
         }
 
         // API URL
-        private const string ApiUrlKey = "settings_key";
+        private const string ApiUrlKey = "apiurl_key";
         private static readonly string ApiUrlKeyDefault = "http://159.89.14.62/api/";
 
         public static string ApiUrl {
@@ -54,7 +54,7 @@ namespace AbsenceApp.Helpers
             set { AppSettings.AddOrUpdateValue(UserPasswordKey, value); }
         }
 
-        private const string CheckinEnabledKey = "checkinEnabled_key";
+        private const string CheckinEnabledKey = "checkinenabled_key";
         private static readonly bool CheckinEnabledDefault = false;
 
         public static bool CheckinEnabled {
@@ -62,12 +62,12 @@ namespace AbsenceApp.Helpers
             set { AppSettings.AddOrUpdateValue(CheckinEnabledKey, value); }
         }
 
-        private const string CheckedInKey = "checkedIn_key";
-        private static readonly bool CheckedInDefault = false;
+        private const string CheckedInIdKey = "checkedinid_key";
+        private static readonly int CheckedInIdDefault = 0;
 
-        public static bool CheckedIn {
-            get { return AppSettings.GetValueOrDefault(CheckedInKey, CheckedInDefault); }
-            set { AppSettings.AddOrUpdateValue(CheckedInKey, value); }
+        public static int CheckedInId {
+            get { return AppSettings.GetValueOrDefault(CheckedInIdKey, CheckedInIdDefault); }
+            set { AppSettings.AddOrUpdateValue(CheckedInIdKey, value); }
         }
 
         #endregion

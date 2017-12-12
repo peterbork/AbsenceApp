@@ -28,7 +28,7 @@ namespace AbsenceApp.Pages
             SettingsName.Text = mainPage.user.name;
         }
 
-        void Logout(object sender, System.EventArgs e) {
+        void Logout(object sender, EventArgs e) {
             this.mainPage.Logout();
         }
     }

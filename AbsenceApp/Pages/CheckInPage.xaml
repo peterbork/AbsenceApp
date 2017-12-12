@@ -9,7 +9,7 @@
                     MapType="Hybrid" />
                 <StackLayout Orientation="Horizontal" Padding="20, 20, 20, 20" BackgroundColor="#eeeeee">
                     <Label Text="Status:"></Label>
-                    <Label Text="{Binding statusText}" FontAttributes="Bold" HorizontalOptions="EndAndExpand"></Label>
+                    <Label x:Name="StatusText" FontAttributes="Bold" HorizontalOptions="EndAndExpand"></Label>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Spacing="10" Padding="20, 20, 20, 0">
                     <Label Text="Automatic Check-in"></Label>

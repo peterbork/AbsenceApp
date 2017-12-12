@@ -22,6 +22,7 @@ namespace AbsenceApp.Pages {
         Position ealLocation;
         LessonController lessonController;
         LocationController locationController;
+        User currentUser;
 
         public string statusText;
 
@@ -37,29 +38,15 @@ namespace AbsenceApp.Pages {
 
             locationController = LocationController.Instance;
             lessonController = new LessonController();
-
-            Debug.WriteLine("Busy: " + IsBusy);
-            //Debug.WriteLine(CheckInButtonText + "Check in setting: " + Settings.CheckedIn.ToString());
+            currentUser = new User();
 
             // For debugging
-            Settings.CheckedIn = false;
+            //Settings.CheckedInId = 0;
 
-            statusText = Settings.CheckedIn ? "Checked in" : "Checked out";
-            CheckInButton.Text = Settings.CheckedIn ? "Check out" : "Check in";
+            UpdateInterface();
 
             // Set automatic checkin toggle
             automaticOn.IsToggled = Settings.CheckinEnabled;
-
-            //automaticOn.Toggled += (object sender, ToggledEventArgs e) => {
-            //    if (automaticOn.IsToggled) {
-
-            //        await locationController.StartListener();
-
-            //    } else {
-            //        Settings.CheckinEnabled = false;
-            //    }
-            //    automaticOn.IsToggled = Settings.CheckinEnabled;
-            //};
 
             ealLocation = new Position(locationController.schoolPosition.Latitude, locationController.schoolPosition.Longitude); // Latitude, Longitude
 
@@ -83,24 +70,44 @@ namespace AbsenceApp.Pages {
             } else {
                 Settings.CheckinEnabled = false;
             }
-            automaticOn.IsToggled = Settings.CheckinEnabled;
+            UpdateInterface();
         }
 
         async void CheckInButtonClicked(object sender, EventArgs e) {
             IsBusy = true;
-            if (Settings.CheckedIn) {
-                locationController.CheckOut();
-                Settings.CheckedIn = false;
+            if (Settings.CheckedInId != 0) {
+                await locationController.CheckOut();
             } else {
                 await locationController.CheckIn();
                 //Settings.CheckedIn = true;
             }
 
+            // Update CheckInPage
+            if (Settings.CheckedInId != 0) {
+                statusText = "Checked in since " + currentUser.latest_checkin.ToString("MMMM dd H:mm");
+            } else {
+                statusText = "Checked out";
+            }
+            UpdateInterface();
             IsBusy = false;
         }
 
         async void StatusButtonClicked(object sender, EventArgs e) {
-            Debug.WriteLine(Settings.CheckedIn);
+            Debug.WriteLine("Datetime: " + currentUser.latest_checkin);
+            Debug.WriteLine("User id: " + currentUser.id);
+            Debug.WriteLine("Checked in: " + Settings.CheckedInId);
+            UpdateInterface();
+        }
+
+        void UpdateInterface() {
+            automaticOn.IsToggled = Settings.CheckinEnabled;
+            if (Settings.CheckedInId != 0) {
+                StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
+                CheckInButton.Text = "Check out";
+            } else {
+                StatusText.Text = "Checked out";
+                CheckInButton.Text = "Check in";
+            }
         }
     }
 }

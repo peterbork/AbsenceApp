@@ -45,15 +45,15 @@ namespace AbsenceApp.Helpers {
             Application.Current.MainPage.IsBusy = true;
             if (result.Transition.ToString() == "Entered") {
                 locationController.IsWithinSchool = true;
-                if (lessonController.hasClassesToday() && !Settings.CheckedIn && Settings.CheckinEnabled) {
+                if (lessonController.hasClassesToday() && Settings.CheckedInId == 0 && Settings.CheckinEnabled) {
                     // Implement automatic check in method
                     locationController.CheckInAutomatic();
                 }
-            } else if (result.Transition.ToString() == "Exited" && Settings.CheckedIn) {
+            } else if (result.Transition.ToString() == "Exited" && Settings.CheckedInId != 0) {
                 locationController.IsWithinSchool = false;
                 locationController.CheckOut();
             }
-            Application.Current.MainPage.IsBusy = true;
+            Application.Current.MainPage.IsBusy = false;
 
             Debug.WriteLine(result.Transition.ToString());
 
