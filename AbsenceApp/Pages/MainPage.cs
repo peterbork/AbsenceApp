@@ -7,6 +7,8 @@ namespace AbsenceApp.Pages
     public class MainPage : TabbedPage
     {
         public User user;
+        
+        public CheckInPage checkInPage;
 
         public MainPage()
         {
@@ -16,7 +18,7 @@ namespace AbsenceApp.Pages
                 ShowLoginPage();
             }
 
-            CheckInPage checkInPage = new CheckInPage();
+            checkInPage = new CheckInPage();
             NavigationPage.SetHasNavigationBar(checkInPage, false);
 
             var navigationPage = new NavigationPage(checkInPage);
