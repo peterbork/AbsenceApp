@@ -38,6 +38,12 @@ namespace AbsenceApp.Pages
             string username = this.UsernameInput.Text;
             string password = this.PasswordInput.Text;
 
+            if (String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password)) {
+                this.errorLabel.IsVisible = true;
+
+                return;
+            }
+
             HttpRequestMessage request = new HttpRequestMessage();
             var content = new FormUrlEncodedContent(new[]
             {
