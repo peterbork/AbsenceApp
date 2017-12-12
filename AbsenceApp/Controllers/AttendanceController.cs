@@ -46,7 +46,7 @@ namespace AbsenceApp.Controllers {
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
 
-            var data = new { started_at = timestamp, latitude = lat, longitude = lng, user_id = 1 };
+            var data = new { started_at = timestamp, latitude = lat, longitude = lng, user_id = currentUser.id };
 
             var json = JsonConvert.SerializeObject(data, jsonSettings);
             var payload = new StringContent(json, Encoding.UTF8, "application/json");
@@ -73,7 +73,7 @@ namespace AbsenceApp.Controllers {
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
 
-            var data = new { id = Settings.CheckedInId, user_id = currentUser.id, ended_at = DateTime.Now };
+            var data = new { attendance_id = Settings.CheckedInId, user_id = currentUser.id, ended_at = DateTime.Now };
 
             var json = JsonConvert.SerializeObject(data, jsonSettings);
             var payload = new StringContent(json, Encoding.UTF8, "application/json");

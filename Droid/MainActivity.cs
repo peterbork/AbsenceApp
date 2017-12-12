@@ -12,13 +12,15 @@ using Android.OS;
 using Plugin.Permissions;
 using Geofence.Plugin;
 using AbsenceApp.Helpers;
+using AbsenceApp.Controllers;
 
 namespace AbsenceApp.Droid
 {
     [Activity(Label = "AbsenceApp.Droid", Icon = "@drawable/icon", Theme = "@style/MyTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        LocationController locationController = LocationController.Instance;
+        protected override async void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -29,9 +31,11 @@ namespace AbsenceApp.Droid
             Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
 
-            //if (Settings.CheckinEnabled) {
-            //    //CrossGeofence.Initialize<CrossGeofenceListener>();
-            //}
+            
+
+            if (Settings.CheckinEnabled && await locationController.HasPermission()) {
+                CrossGeofence.Initialize<CrossGeofenceListener>();
+            }
 
             LoadApplication(new App());
         }

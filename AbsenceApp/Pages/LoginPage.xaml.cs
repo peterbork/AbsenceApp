@@ -51,7 +51,7 @@ namespace AbsenceApp.Pages
                 new KeyValuePair<string, string>("password", password)
             });
 
-            HttpResponseMessage response = await client.PostAsync("http://159.89.14.62/api/login", content);
+            HttpResponseMessage response = await client.PostAsync(Settings.ApiUrl + "login", content);
 
             if (!response.IsSuccessStatusCode)
             {

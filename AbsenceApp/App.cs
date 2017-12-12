@@ -25,18 +25,10 @@ namespace AbsenceApp
             // Handle when your app starts
 
             // Check if the latest check in is out of date
-            if (currentUser.latest_checkin.Date != DateTime.Now.Date && currentUser.latest_checkin.Month != DateTime.Now.Month) {
+            if (currentUser.latest_checkin.Date != DateTime.Now.Date || currentUser.latest_checkin.Month != DateTime.Now.Month) {
                 Debug.WriteLine("Old checkin: " + Settings.CheckedInId);
-                Settings.CheckedInId = 0;
+                //Settings.CheckedInId = 0;
             }
-
-            //location = DependencyService.Get<ILocation>();
-            //location.locationObtained += (object sender, ILocationEventArgs e) =>
-            //{
-            //    Debug.WriteLine("Lat: " + e.lat);
-            //    Debug.WriteLine("Lng: " + e.lng);
-            //};
-            //location.StartListener();
         }
 
         protected override void OnSleep()
@@ -47,6 +39,11 @@ namespace AbsenceApp
         protected override void OnResume()
         {
             // Handle when your app resumes
+
+            // Check if the latest check in is out of date
+            if (currentUser.latest_checkin.Date != DateTime.Now.Date && currentUser.latest_checkin.Month != DateTime.Now.Month) {
+                Settings.CheckedInId = 0;
+            }
         }
     }
 }
