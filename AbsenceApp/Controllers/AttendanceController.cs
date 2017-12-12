@@ -9,7 +9,6 @@ using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using AbsenceApp.Models;
 
 namespace AbsenceApp.Controllers {
     public class AttendanceController {

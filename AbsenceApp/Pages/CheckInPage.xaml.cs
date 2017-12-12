@@ -50,16 +50,33 @@ namespace AbsenceApp.Pages {
 
             ealLocation = new Position(locationController.schoolPosition.Latitude, locationController.schoolPosition.Longitude); // Latitude, Longitude
 
+            //customMap = new CustomMap
+            //{
+            //    MapType = MapType.Hybrid,
+            //    IsShowingUser = true
+            //    //WidthRequest = App.ScreenWidth,
+            //    //HeightRequest = App.ScreenHeight
+            //};
+
+            customMap.IsShowingUser = true;
+            customMap.MapType = MapType.Hybrid;
+
             var pin = new Pin {
                 Type = PinType.Place,
                 Position = ealLocation,
-                Label = "EAL",
-                Address = "Erhvervsakademiet Lillebælt"
+                Label = "Erhvervsakademiet Lillebælt",
+                Address = "Seebladsgade 1, 5000 Odense C"
             };
 
-            MyMap.Pins.Add(pin);
-            MyMap.HasZoomEnabled = true;
-            MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
+            customMap.Circle = new CustomCircle
+            {
+                Position = ealLocation,
+                Radius = 200
+            };
+
+            customMap.Pins.Add(pin);
+            //customMap.HasZoomEnabled = true;
+            customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
         }
 
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {

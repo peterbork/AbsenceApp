@@ -60,6 +60,8 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomMap.cs" />
+    <Compile Include="Models\CustomCircle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
