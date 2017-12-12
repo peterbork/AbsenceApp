@@ -116,7 +116,7 @@ namespace AbsenceApp.Pages {
             UpdateInterface();
         }
 
-        void UpdateInterface() {
+        public void UpdateInterface() {
             automaticOn.IsToggled = Settings.CheckinEnabled;
             if (Settings.CheckedInId != 0) {
                 StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
