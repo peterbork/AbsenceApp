@@ -2,6 +2,7 @@
 namespace AbsenceApp {
     public class Absence {
         public string Date { get; set; }
-        public string MissingHours { get; set; }
+        public double MissingHours { get; set; }
+        public double AttendedHours { get; set; }
     }
 }

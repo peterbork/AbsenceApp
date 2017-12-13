@@ -28,18 +28,25 @@ namespace AbsenceApp.Controllers {
             return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
         }
 
-        public IEnumerable<Attendance> GetMonthly(int user_id, int? month = null, int? year = null) {
+        public async Task<IEnumerable<Attendance>> GetMonthly(int user_id, int? month = null, int? year = null) {
             string route = "";
+            var responseContent = "";
             if (month == null || year == null) {
                 route = "attendance/user/" + user_id + "/monthly";
             } else {
                 // Temporary mock data
-                route = "attendance/user/" + user_id + "/monthly/1/2018";
-                //route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
+                //route = "attendance/user/" + user_id + "/monthly/12/2017";
+                route = "attendance/user/" + user_id + "/monthly/" + month + "/" + year;
             }
             HttpClient client = GetClient();
-            string result = client.GetStringAsync(baseUrl + route).Result;
-            return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(result);
+            var httpResponse = await client.GetAsync(baseUrl + route);
+            
+            if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                responseContent = await httpResponse.Content.ReadAsStringAsync();
+            }
+            return JsonConvert.DeserializeObject<IEnumerable<Attendance>>(responseContent);
+
         }
 
         public async Task<bool> CheckIn(double lat, double lng, DateTime timestamp) {
