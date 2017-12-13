@@ -53,42 +53,65 @@ namespace AbsenceApp.Pages {
 
             int SelectedMonth = DateTime.Now.Month;
             int SelectedYear = DateTime.Now.Year;
-
             FindAbsence(SelectedMonth, SelectedYear);
+           
         }
 
-        public void FindAbsence(int SelectedMonth, int SelectedYear) {
+        public async void FindAbsence(int SelectedMonth, int SelectedYear) {
+            if (SelectedMonth == 0 || SelectedYear == 0) return;
             int user_id = mainPage.user.id;
             LessonController _LessonController = new LessonController();
+            var lessons = _LessonController.GetMonthly(SelectedMonth, SelectedYear).ToList();
 
-            var lessons = _LessonController.GetMonthly(SelectedMonth, SelectedYear);
+            // removing lunch lessons
+            var lessonsFiltered = new List<Lesson>();
+            foreach (Lesson lesson in lessons) {
+                if (lesson.subjects != "Frokost/Lunch") {
+                    lessonsFiltered.Add(lesson);
+                }
+            }
+            lessons = lessonsFiltered;
 
             AttendanceController _AttendanceController = new AttendanceController();
-            var attendances = _AttendanceController.GetMonthly(user_id, SelectedMonth, SelectedYear);
+            var attendances = await _AttendanceController.GetMonthly(user_id, SelectedMonth, SelectedYear);
+            List<Lesson> LessonsToRemove = new List<Lesson>();
 
-            List<Lesson> Lessonstest = new List<Lesson>();
-
-            foreach (Lesson lesson in lessons)
-            {
-                foreach (Attendance attendance in attendances)
-                {
-                    if (lesson.start <= attendance.started_at && lesson.end > attendance.started_at)
-                    {
-                        Lessonstest.Add(lesson);
+            foreach (var lesson in lessons) {
+                foreach (Attendance attendance in attendances) {
+                    if (lesson.start <= attendance.started_at && lesson.end > attendance.started_at){
+                        LessonsToRemove.Add(lesson);
                     }
                 }
             }
-            var NotAttendedLessons = lessons.ToList().Except(Lessonstest);
+            
+            var NotAttendedLessons = lessons;
+            foreach (Lesson LessonToRemove in LessonsToRemove)
+            {
+                if (lessons.Contains(LessonToRemove))
+                {
+                    NotAttendedLessons.Remove(LessonToRemove);
+                }
+            }
+            //var test = NotAttendedLessons;
+            //var NotAttendedLessons = lessons.ToList().Except(LessonsToRemove);
 
-            double[] hours = new double[32];
-            foreach (Lesson NotAttendedLessonsEdited in NotAttendedLessons){
-                hours[NotAttendedLessonsEdited.start.Day] = hours[NotAttendedLessonsEdited.start.Day] + (NotAttendedLessonsEdited.end - NotAttendedLessonsEdited.start).TotalHours;
+            //var AttendedLessons = lessons.ToList().Except(NotAttendedLessons);
+            List<Lesson> AttendedLessons = LessonsToRemove;
+            double[] hoursNotAttennded = new double[32];
+            foreach (Lesson NotAttendedLesson in NotAttendedLessons){
+                hoursNotAttennded[NotAttendedLesson.start.Day] = hoursNotAttennded[NotAttendedLesson.start.Day] + (NotAttendedLesson.end - NotAttendedLesson.start).TotalHours;
+            }
+            double[] hoursAttennded = new double[32];
+            foreach (Lesson attendedLesson in AttendedLessons)
+            {
+                hoursAttennded[attendedLesson.start.Day] = hoursAttennded[attendedLesson.start.Day] + (attendedLesson.end - attendedLesson.start).TotalHours;
             }
 
             int j = 0;
             ObservableCollection<Absence> AbsenceHistory = new ObservableCollection<Absence>();
             List<Entry> entries = new List<Entry> {};
-            foreach (double hour in hours){
+            foreach (double hour in hoursNotAttennded)
+            {
                 if (hour != 0){
                     entries.Add(new Entry (Convert.ToSingle(hour)) {
                         Label = j + ".",
@@ -96,11 +119,11 @@ namespace AbsenceApp.Pages {
                         Color = SKColor.Parse("#607D8B")
                     }
                     );
-                    AbsenceHistory.Add(new Absence() { Date = j + "/" + SelectedMonth + "/" + SelectedYear, MissingHours = hour + " hours missed" });
+                    AbsenceHistory.Add(new Absence() { Date = j + "/" + SelectedMonth + "/" + SelectedYear, MissingHours = hour, AttendedHours = hoursAttennded[j] });
                 }
                 j++;
             }
-            AbsenceChart.Chart = new BarChart() { Entries = entries };
+            AbsenceChart.Chart = new LineChart() { Entries = entries };
             AbsenceChart.Chart.LabelTextSize = 40;
             AbsenceChart.BackgroundColor = Color.FromHex("#ff0000");
             AbsenceListView.ItemsSource = AbsenceHistory;

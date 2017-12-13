@@ -54,7 +54,7 @@ namespace AbsenceApp.Helpers {
                 locationController.CheckOut();
             }
             Application.Current.MainPage.IsBusy = false;
-            Application.Current.MainPage.checkInPage.UpdateInterface();
+            //Application.Current.MainPage.checkInPage.UpdateInterface();
 
             Debug.WriteLine(result.Transition.ToString());
 
