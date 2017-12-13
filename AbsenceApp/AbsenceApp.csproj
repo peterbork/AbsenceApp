@@ -34,7 +34,6 @@
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Helpers\CrossGeofenceListener.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="ILocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pages\MainPage.cs" />
     <Compile Include="Pages\CheckInPage.xaml.cs">

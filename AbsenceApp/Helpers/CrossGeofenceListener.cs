@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AbsenceApp.Controllers;
-using AbsenceApp.Helpers;
-using Xamarin.Forms;
 
 namespace AbsenceApp.Helpers {
     //Class to handle geofence events such as start/stop monitoring, region state changes and errors.
@@ -16,6 +14,7 @@ namespace AbsenceApp.Helpers {
         LessonController lessonController;
         AttendanceController attendanceController;
         LocationController locationController;
+        
 
         public CrossGeofenceListener() {
             lessonController = new LessonController();
@@ -40,21 +39,20 @@ namespace AbsenceApp.Helpers {
         }
 
 
-        public void OnRegionStateChanged(GeofenceResult result) {
+        public async void OnRegionStateChanged(GeofenceResult result) {
             // Entered/Exited
-            Application.Current.MainPage.IsBusy = true;
             if (result.Transition.ToString() == "Entered") {
                 locationController.IsWithinSchool = true;
                 if (lessonController.hasClassesToday() && Settings.CheckedInId == 0 && Settings.CheckinEnabled) {
                     // Implement automatic check in method
-                    locationController.CheckInAutomatic();
+                    await locationController.CheckInAutomatic();
                 }
             } else if (result.Transition.ToString() == "Exited" && Settings.CheckedInId != 0) {
                 locationController.IsWithinSchool = false;
-                locationController.CheckOut();
+                await attendanceController.CheckOut();
             }
             Application.Current.MainPage.IsBusy = false;
-            //Application.Current.MainPage.checkInPage.UpdateInterface();
+
 
             Debug.WriteLine(result.Transition.ToString());
 

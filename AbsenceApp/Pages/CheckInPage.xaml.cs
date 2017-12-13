@@ -109,7 +109,7 @@ namespace AbsenceApp.Pages {
             IsBusy = false;
         }
 
-        async void StatusButtonClicked(object sender, EventArgs e) {
+        void StatusButtonClicked(object sender, EventArgs e) {
             Debug.WriteLine("Datetime: " + currentUser.latest_checkin);
             Debug.WriteLine("User id: " + currentUser.id);
             Debug.WriteLine("Checked in: " + Settings.CheckedInId);
