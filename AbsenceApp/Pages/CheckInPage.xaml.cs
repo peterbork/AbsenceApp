@@ -64,7 +64,6 @@ namespace AbsenceApp.Pages {
             };
 
             customMap.Pins.Add(pin);
-            //customMap.HasZoomEnabled = true;
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(Settings.AllowedDistance)));
         }
 
@@ -86,7 +85,6 @@ namespace AbsenceApp.Pages {
                 await locationController.CheckOut();
             } else {
                 await locationController.CheckIn();
-                //Settings.CheckedIn = true;
             }
 
             // Update CheckInPage
@@ -111,9 +109,11 @@ namespace AbsenceApp.Pages {
             if (Settings.CheckedInId != 0) {
                 StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
                 CheckInButton.Text = "Check out";
+                loadingText.Text = "Checking out";
             } else {
                 StatusText.Text = "Checked out";
                 CheckInButton.Text = "Check in";
+                loadingText.Text = "Checking in";
             }
         }
     }

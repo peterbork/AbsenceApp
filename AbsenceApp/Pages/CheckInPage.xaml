@@ -52,7 +52,7 @@
                         VerticalOptions="CenterAndExpand"
                         Color="#607D8B" />
                     <Label HorizontalTextAlignment="Center"
-                        Text="Checking in"
+                        x:Name="loadingText"
                         TextColor="#000000"
                         XAlign="Center" />
                 </StackLayout>
