@@ -49,16 +49,18 @@ namespace AbsenceApp.Pages {
             customMap.IsShowingUser = true;
             customMap.MapType = MapType.Hybrid;
 
+            ealLocation = new Position(Settings.SchoolLocationLat, Settings.SchoolLocationLng);
+
             var pin = new Pin {
                 Type = PinType.Place,
-                Position = new Position(Settings.SchoolLocationLat, Settings.SchoolLocationLng),
+                Position = ealLocation,
                 Label = "Erhvervsakademiet Lillebælt",
                 Address = "Seebladsgade 1, 5000 Odense C"
             };
 
             customMap.Circle = new CustomCircle {
                 Position = ealLocation,
-                Radius = 200
+                Radius = Settings.AllowedDistance
             };
 
             customMap.Pins.Add(pin);

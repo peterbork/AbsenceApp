@@ -45,7 +45,7 @@ namespace AbsenceApp.Helpers {
         private static readonly int AllowedDistanceDefault = 200;
 
         public static int AllowedDistance {
-            get { return AppSettings.GetValueOrDefault(AllowedDistanceKey, AllowedDistance); }
+            get { return AppSettings.GetValueOrDefault(AllowedDistanceKey, AllowedDistanceDefault); }
         }
 
         private const string CheckinEnabledKey = "checkinenabled_key";
