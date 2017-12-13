@@ -14,7 +14,7 @@ namespace AbsenceApp.Helpers {
         LessonController lessonController;
         AttendanceController attendanceController;
         LocationController locationController;
-        
+
 
         public CrossGeofenceListener() {
             lessonController = new LessonController();
@@ -43,7 +43,7 @@ namespace AbsenceApp.Helpers {
             // Entered/Exited
             if (result.Transition.ToString() == "Entered") {
                 locationController.IsWithinSchool = true;
-                if (lessonController.hasClassesToday() && Settings.CheckedInId == 0 && Settings.CheckinEnabled) {
+                if (lessonController.HasClassesToday() && Settings.CheckedInId == 0 && Settings.CheckinEnabled) {
                     // Implement automatic check in method
                     await locationController.CheckInAutomatic();
                 }
@@ -63,7 +63,7 @@ namespace AbsenceApp.Helpers {
         }
 
         public void OnLocationChanged(GeofenceLocation location) {
-            Debug.WriteLine("Has classes: " + lessonController.hasClassesNow().ToString());
+            Debug.WriteLine("Has classes: " + lessonController.HasClassesNow().ToString());
             //Debug.WriteLine("Location changed: " + location.ToString());
         }
     }

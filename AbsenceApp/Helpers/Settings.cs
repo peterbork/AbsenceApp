@@ -2,32 +2,20 @@
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
-namespace AbsenceApp.Helpers
-{
-	/// <summary>
-	/// This is the Settings static class that can be used in your Core solution or in any
-	/// of your client applications. All settings are laid out the same exact way with getters
-	/// and setters. 
-	/// </summary>
-	public static class Settings
-	{
-		private static ISettings AppSettings
-		{
-			get
-			{
-				return CrossSettings.Current;
-			}
-		}
-
-		#region Setting Constants
-
-		private const string SettingsKey = "settings_key";
-		private static readonly string SettingsDefault = string.Empty;
-
-        public static string GeneralSettings {
-            get { return AppSettings.GetValueOrDefault(SettingsKey, SettingsDefault); }
-            set { AppSettings.AddOrUpdateValue(SettingsKey, value); }
+namespace AbsenceApp.Helpers {
+    /// <summary>
+    /// This is the Settings static class that can be used in your Core solution or in any
+    /// of your client applications. All settings are laid out the same exact way with getters
+    /// and setters. 
+    /// </summary>
+    public static class Settings {
+        private static ISettings AppSettings {
+            get {
+                return CrossSettings.Current;
+            }
         }
+
+        #region Setting Constants
 
         // API URL
         private const string ApiUrlKey = "apiurl_key";
@@ -37,21 +25,27 @@ namespace AbsenceApp.Helpers
             get { return AppSettings.GetValueOrDefault(ApiUrlKey, ApiUrlKeyDefault); }
         }
 
-        // User credentials
-        private const string UserNameKey = "username_key";
-        private static readonly string UserNameDefault = string.Empty;
+        // School location
+        private const string SchoolLocationLatKey = "schoollocationlat_key";
+        private static readonly double SchoolLocationLatDefault = 55.4034637;
 
-        public static string UserName {
-            get { return AppSettings.GetValueOrDefault(UserNameKey, UserNameDefault); }
-            set { AppSettings.AddOrUpdateValue(UserNameKey, value); }
+        public static double SchoolLocationLat {
+            get { return AppSettings.GetValueOrDefault(SchoolLocationLatKey, SchoolLocationLatDefault); }
         }
 
-        private const string UserPasswordKey = "userpassword_key";
-        private static readonly string UserPasswordDefault = string.Empty;
+        private const string SchoolLocationLngKey = "schoollocationlng_key";
+        private static readonly double SchoolLocationLngDefault = 10.3795097;
 
-        public static string UserPassword {
-            get { return AppSettings.GetValueOrDefault(UserPasswordKey, UserPasswordDefault); }
-            set { AppSettings.AddOrUpdateValue(UserPasswordKey, value); }
+        public static double SchoolLocationLng {
+            get { return AppSettings.GetValueOrDefault(SchoolLocationLngKey, SchoolLocationLngDefault); }
+        }
+
+        // Allowed distance from school in meters
+        private const string AllowedDistanceKey = "alloweddistance_key";
+        private static readonly int AllowedDistanceDefault = 200;
+
+        public static int AllowedDistance {
+            get { return AppSettings.GetValueOrDefault(AllowedDistanceKey, AllowedDistance); }
         }
 
         private const string CheckinEnabledKey = "checkinenabled_key";
@@ -62,6 +56,7 @@ namespace AbsenceApp.Helpers
             set { AppSettings.AddOrUpdateValue(CheckinEnabledKey, value); }
         }
 
+        // Id of current check in
         private const string CheckedInIdKey = "checkedinid_key";
         private static readonly int CheckedInIdDefault = 0;
 

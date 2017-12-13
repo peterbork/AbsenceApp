@@ -18,7 +18,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 
 namespace AbsenceApp.Pages {
-    public partial class CheckInPage : ContentPage, INotifyPropertyChanged {
+    public partial class CheckInPage : ContentPage {
         Position ealLocation;
         LessonController lessonController;
         LocationController locationController;
@@ -29,54 +29,41 @@ namespace AbsenceApp.Pages {
         public CheckInPage() {
             InitializeComponent();
             Title = "Check-In";
-            
+
             if (Device.RuntimePlatform == Device.iOS) {
                 Icon = "checkin.png";
             }
 
+            // Set binding context for XAML bindings
             BindingContext = this;
 
             locationController = LocationController.Instance;
             lessonController = new LessonController();
             currentUser = new User();
 
-            // For debugging
-            //Settings.CheckedInId = 0;
-
             UpdateInterface();
 
             // Set automatic checkin toggle
             automaticOn.IsToggled = Settings.CheckinEnabled;
-
-            ealLocation = new Position(locationController.schoolPosition.Latitude, locationController.schoolPosition.Longitude); // Latitude, Longitude
-
-            //customMap = new CustomMap
-            //{
-            //    MapType = MapType.Hybrid,
-            //    IsShowingUser = true
-            //    //WidthRequest = App.ScreenWidth,
-            //    //HeightRequest = App.ScreenHeight
-            //};
 
             customMap.IsShowingUser = true;
             customMap.MapType = MapType.Hybrid;
 
             var pin = new Pin {
                 Type = PinType.Place,
-                Position = ealLocation,
+                Position = new Position(Settings.SchoolLocationLat, Settings.SchoolLocationLng),
                 Label = "Erhvervsakademiet Lillebælt",
                 Address = "Seebladsgade 1, 5000 Odense C"
             };
 
-            customMap.Circle = new CustomCircle
-            {
+            customMap.Circle = new CustomCircle {
                 Position = ealLocation,
                 Radius = 200
             };
 
             customMap.Pins.Add(pin);
             //customMap.HasZoomEnabled = true;
-            customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(200)));
+            customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(Settings.AllowedDistance)));
         }
 
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {
@@ -85,6 +72,7 @@ namespace AbsenceApp.Pages {
                     Settings.CheckinEnabled = true;
                 }
             } else {
+                locationController.StopListener();
                 Settings.CheckinEnabled = false;
             }
             UpdateInterface();

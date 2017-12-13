@@ -79,7 +79,7 @@ namespace AbsenceApp.Controllers {
             var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpClient client = GetClient();
-            
+
             var httpResponse = await client.PutAsync(baseUrl + "attendance", payload);
 
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK) {
@@ -91,7 +91,7 @@ namespace AbsenceApp.Controllers {
             } else {
                 return false;
             }
-            
+
         }
     }
 }

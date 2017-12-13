@@ -21,9 +21,7 @@ namespace AbsenceApp.Controllers {
 
         AttendanceController attendanceController;
 
-        public GeoCoordinate schoolPosition = new GeoCoordinate(55.4034637, 10.3795097);
-
-        public int distance = 200;
+        public GeoCoordinate schoolPosition = new GeoCoordinate(Settings.SchoolLocationLat, Settings.SchoolLocationLng);
 
         public bool IsWithinSchool;
 
@@ -42,7 +40,7 @@ namespace AbsenceApp.Controllers {
                 CrossGeofence.Initialize<CrossGeofenceListener>();
 
                 if (!CrossGeofence.Current.IsMonitoring) {
-                    GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", schoolPosition.Latitude, schoolPosition.Longitude, distance);
+                    GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", Settings.SchoolLocationLat, Settings.SchoolLocationLng, Settings.AllowedDistance);
 
                     CrossGeofence.Current.StartMonitoring(region);
                     Debug.WriteLine("Geofence status: " + CrossGeofence.Current.IsMonitoring);
@@ -50,6 +48,13 @@ namespace AbsenceApp.Controllers {
                 return true;
             } else {
                 return false;
+            }
+        }
+
+        public void StopListener() {
+            if (CrossGeofence.Current.IsMonitoring) {
+                CrossGeofence.Current.StopMonitoringAllRegions();
+                Debug.WriteLine("Geofence stopped");
             }
         }
 
@@ -67,7 +72,7 @@ namespace AbsenceApp.Controllers {
 
                 Debug.WriteLine("Getting location by geolocator. " + locator.IsGeolocationAvailable.ToString());
 
-                locator.DesiredAccuracy = distance;
+                locator.DesiredAccuracy = Settings.AllowedDistance;
 
                 //position = await locator.GetLastKnownLocationAsync();
 
@@ -105,7 +110,7 @@ namespace AbsenceApp.Controllers {
         }
 
         public bool CheckIsWithinSchool(double lat, double lng) {
-            return GetDistanceToSchool(lat, lng) <= distance ? true : false;
+            return GetDistanceToSchool(lat, lng) <= Settings.AllowedDistance ? true : false;
         }
 
         public async Task CheckIn() {

@@ -10,26 +10,26 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Diagnostics;
 
-namespace AbsenceApp.Controllers{
-    public class LessonController{
-        
+namespace AbsenceApp.Controllers {
+    public class LessonController {
+
         private string baseUrl = Settings.ApiUrl;
 
         public DateTime classesStart = new DateTime(2018, 01, 24, 07, 15, 00);
         public DateTime classesEnd = new DateTime(2018, 01, 24, 08, 00, 00);
         public DateTime now = new DateTime(2018, 01, 24, 07, 30, 00);
 
-        private HttpClient GetClient(){
+        private HttpClient GetClient() {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             return client;
         }
 
-        public IEnumerable<Lesson> GetMonthly(int? month = null, int? year = null){
+        public IEnumerable<Lesson> GetMonthly(int? month = null, int? year = null) {
             string route = "";
-            if(month == null || year == null){
+            if (month == null || year == null) {
                 route = "lessons/monthly";
-            }else{
+            } else {
                 route = "lessons/monthly/" + month + "/" + year;
                 //route = "lessons";
             }
@@ -38,21 +38,12 @@ namespace AbsenceApp.Controllers{
             return JsonConvert.DeserializeObject<IEnumerable<Lesson>>(result);
         }
 
-        public bool hasClassesNow()
-        {
+        public bool HasClassesNow() {
             return now > classesStart && now < classesEnd ? true : false;
-            //return true;
         }
 
-        public bool hasClassesToday()
-        {
+        public bool HasClassesToday() {
             return now.Day == classesStart.Day && now < classesEnd ? true : false;
-            //return true;
-        }
-
-        public void CheckIn()
-        {
-            Debug.WriteLine("Checking in from LessonController");
         }
     }
 }
