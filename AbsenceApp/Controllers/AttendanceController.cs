@@ -85,12 +85,13 @@ namespace AbsenceApp.Controllers {
             if (httpResponse.StatusCode == System.Net.HttpStatusCode.OK) {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
 
-                // Update current user
+                // End current check-in
                 Settings.CheckedInId = 0;
                 return true;
             } else {
                 return false;
             }
+            
         }
     }
 }

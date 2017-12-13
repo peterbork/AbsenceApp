@@ -155,7 +155,7 @@ namespace AbsenceApp.Controllers {
             }
         }
 
-        public async void CheckInAutomatic() {
+        public async Task CheckInAutomatic() {
             Position currentPosition = await GetLocation();
             Debug.WriteLine("Automatic check in called");
             // Check if obtained position is valid

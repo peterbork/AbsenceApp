@@ -172,7 +172,6 @@
   <ItemGroup>
     <Compile Include="GeofenceAppStarter.cs" />
     <Compile Include="Helpers\GeofenceService.cs" />
-    <Compile Include="Location_Droid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
