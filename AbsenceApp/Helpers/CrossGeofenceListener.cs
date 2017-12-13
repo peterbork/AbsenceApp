@@ -51,8 +51,6 @@ namespace AbsenceApp.Helpers {
                 locationController.IsWithinSchool = false;
                 await attendanceController.CheckOut();
             }
-            Application.Current.MainPage.IsBusy = false;
-
 
             Debug.WriteLine(result.Transition.ToString());
 
