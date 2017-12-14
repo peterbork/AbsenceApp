@@ -43,9 +43,6 @@ namespace AbsenceApp.Pages {
 
             UpdateInterface();
 
-            // Set automatic checkin toggle
-            automaticOn.IsToggled = Settings.CheckinEnabled;
-
             customMap.IsShowingUser = true;
             customMap.MapType = MapType.Hybrid;
 
@@ -106,6 +103,7 @@ namespace AbsenceApp.Pages {
 
         public void UpdateInterface() {
             automaticOn.IsToggled = Settings.CheckinEnabled;
+            CheckInButton.IsEnabled = !Settings.CheckinEnabled;
             if (Settings.CheckedInId != 0) {
                 StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
                 CheckInButton.Text = "Check out";
