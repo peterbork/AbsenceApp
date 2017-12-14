@@ -57,8 +57,6 @@ namespace AbsenceApp.Controllers {
             var payload = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpClient client = GetClient();
-            Debug.WriteLine("Registered attendance");
-            //return true;
 
             var httpResponse = await client.PostAsync(baseUrl + "attendance", payload);
 

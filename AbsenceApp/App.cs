@@ -23,7 +23,6 @@ namespace AbsenceApp {
             // Check if the latest check in is out of date
             if (currentUser.latest_checkin.Date != DateTime.Now.Date || currentUser.latest_checkin.Month != DateTime.Now.Month) {
                 Debug.WriteLine("Old checkin: " + Settings.CheckedInId);
-                //Settings.CheckedInId = 0;
             }
         }
 
