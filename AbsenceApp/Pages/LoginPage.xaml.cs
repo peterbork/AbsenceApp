@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Diagnostics;
 using Xamarin.Forms;
 using Newtonsoft.Json;
 using AbsenceApp.Models;
-using Xamarin.Auth;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Pages {
