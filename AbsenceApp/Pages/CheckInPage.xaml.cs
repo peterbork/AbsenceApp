@@ -38,6 +38,7 @@ namespace AbsenceApp.Pages {
             BindingContext = this;
 
             locationController = LocationController.Instance;
+            locationController.checkInPage = this;
             lessonController = new LessonController();
             currentUser = new User();
 
@@ -75,7 +76,7 @@ namespace AbsenceApp.Pages {
 
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {
             if (automaticOn.IsToggled) {
-                if (await locationController.StartListener(this)) {
+                if (await locationController.StartListener()) {
                     Settings.CheckinEnabled = true;
                 }
             } else {
@@ -110,17 +111,27 @@ namespace AbsenceApp.Pages {
             UpdateInterface();
         }
 
-        public void UpdateInterface() {
+        public void UpdateInterface(int CheckedInId = 0) {
+            
             Debug.WriteLine("YESYES");
-            automaticOn.IsToggled = Settings.CheckinEnabled;
-            if (Settings.CheckedInId != 0) {
-                StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
-                CheckInButton.Text = "Check out";
-                loadingText.Text = "Checking out";
-            } else {
-                StatusText.Text = "Checked out";
-                CheckInButton.Text = "Check in";
-                loadingText.Text = "Checking in";
+            try {
+                if (CheckedInId == 0)
+                {
+                    automaticOn.IsToggled = Settings.CheckinEnabled;
+                }
+                if (Settings.CheckedInId != 0) {
+                    StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");
+                    CheckInButton.Text = "Check out";
+                    loadingText.Text = "Checking out";
+                    Debug.WriteLine("YESYES1");
+                } else {
+                    StatusText.Text = "Checked out";
+                    CheckInButton.Text = "Check in";
+                    loadingText.Text = "Checking in";
+                    Debug.WriteLine("YESYES2");
+                }
+            } catch (Exception e) {
+                Debug.WriteLine(e);
             }
         }
     }

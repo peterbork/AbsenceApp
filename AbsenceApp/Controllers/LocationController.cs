@@ -36,10 +36,9 @@ namespace AbsenceApp.Controllers {
             }
         }
 
-        public async Task<bool> StartListener(Pages.CheckInPage page) {
+        public async Task<bool> StartListener() {
             if (await HasPermission()) {
                 CrossGeofence.Initialize<CrossGeofenceListener>();
-                this.checkInPage = page;
                 if (!CrossGeofence.Current.IsMonitoring) {
                     GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", Settings.SchoolLocationLat, Settings.SchoolLocationLng, Settings.AllowedDistance);
 

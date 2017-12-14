@@ -58,7 +58,7 @@ namespace AbsenceApp.Helpers {
             if(locationController.checkInPage != null)
             {
                 Debug.WriteLine("THIS FAR");
-                locationController.checkInPage.UpdateInterface();
+                locationController.checkInPage.UpdateInterface(Settings.CheckedInId);
             }
            
             // todo: update UI
