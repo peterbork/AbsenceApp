@@ -64,6 +64,16 @@ namespace AbsenceApp.Pages {
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(250)));
         }
 
+        protected override void OnAppearing()
+        {
+            UpdateInterface();
+        }
+
+        private void CheckInId_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateInterface();
+        }
+
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {
             if (automaticOn.IsToggled) {
                 if (await locationController.StartListener()) {
