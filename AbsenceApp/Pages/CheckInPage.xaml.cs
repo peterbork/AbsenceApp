@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Xamarin.Forms.Maps;
 using Xamarin.Forms;
 using System.ComponentModel;
-using Plugin.Geolocator;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Collections.ObjectModel;
-using System.Net.Http;
-using Newtonsoft.Json;
 using AbsenceApp.Models;
 using AbsenceApp.Controllers;
-using System.Device.Location;
 using AbsenceApp.Helpers;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 
 namespace AbsenceApp.Pages {
     public partial class CheckInPage : ContentPage {

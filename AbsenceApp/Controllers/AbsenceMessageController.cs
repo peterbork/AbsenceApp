@@ -4,9 +4,6 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using AbsenceApp.Models;
 using System.Text;
-using System.Globalization;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
 
 namespace AbsenceApp.Controllers

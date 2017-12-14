@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using AbsenceApp.Models;
 using Newtonsoft.Json;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
 using AbsenceApp.Helpers;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using System.Diagnostics;
 
 namespace AbsenceApp.Controllers {
     public class LessonController {

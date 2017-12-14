@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Dynamic;
-using AbsenceApp.Models;
 using Xamarin.Forms;
 
 namespace AbsenceApp.Pages
