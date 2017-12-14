@@ -5,4 +5,4 @@ Students have 2 options, either to check in manually, or toggle automatic ON: Th
 AbsenceApp is cross platform, and should run flawless on both iOS and Android. 
 Note:
 * The app is mainly developed using iOS
-* Running the app on android may require additional Google Play Services
+* Running the app on an android emulator may require the Google Play Intel x86 Atom image located in `Preferences>SDK Locations>Android`. Additionally the Google Play Services tool needs to be enabled.
