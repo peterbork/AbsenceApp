@@ -7,6 +7,7 @@ Note:
 * The app is mainly developed using iOS
 * Running the app on an android emulator may require the Google Play Intel x86 Atom image located in `Preferences>SDK Locations>Android`. Additionally the Google Play Services tool needs to be enabled.
 
-
-[![AbsenceApp Video](https://img.youtube.com/vi/apLhSwTVeYM/0.jpg)](https://www.youtube.com/watch?v=apLhSwTVeYM)
-[![AbsenceApp Video Notifications](https://img.youtube.com/vi/d9exFTnhHiM/0.jpg)](https://www.youtube.com/watch?v=d9exFTnhHiM)
+<p align="center">
+  [![AbsenceApp Video](https://img.youtube.com/vi/apLhSwTVeYM/0.jpg)](https://www.youtube.com/watch?v=apLhSwTVeYM)
+  [![AbsenceApp Video Notifications](https://img.youtube.com/vi/d9exFTnhHiM/0.jpg)](https://www.youtube.com/watch?v=d9exFTnhHiM)
+</p>
