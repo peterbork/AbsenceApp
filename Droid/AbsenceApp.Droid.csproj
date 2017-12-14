@@ -170,6 +170,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomMapRenderer.cs" />
     <Compile Include="GeofenceAppStarter.cs" />
     <Compile Include="Helpers\GeofenceService.cs" />
     <Compile Include="MainActivity.cs" />

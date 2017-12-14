@@ -7,11 +7,11 @@
         >
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Label FontAttributes="Bold" Text="Logget ind som" />
-                <Label x:Name="SettingsName" Text="Dude" />
+                <Label x:Name="SettingsName" Text="N/A" />
             </StackLayout>
 
             <Button
-                Text="Logud"
+                Text="SIGN OUT"
                 VerticalOptions="Center"
                 BackgroundColor="#006E79"
                 TextColor="White"

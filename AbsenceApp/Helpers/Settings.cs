@@ -42,7 +42,7 @@ namespace AbsenceApp.Helpers {
 
         // Allowed distance from school in meters
         private const string AllowedDistanceKey = "alloweddistance_key";
-        private static readonly int AllowedDistanceDefault = 200;
+        private static readonly int AllowedDistanceDefault = 125;
 
         public static int AllowedDistance {
             get { return AppSettings.GetValueOrDefault(AllowedDistanceKey, AllowedDistanceDefault); }

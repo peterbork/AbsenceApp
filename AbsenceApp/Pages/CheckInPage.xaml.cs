@@ -64,7 +64,7 @@ namespace AbsenceApp.Pages {
             };
 
             customMap.Pins.Add(pin);
-            customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(Settings.AllowedDistance)));
+            customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(250)));
         }
 
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {
