@@ -55,6 +55,13 @@ namespace AbsenceApp.Helpers {
             Debug.WriteLine(result.Transition.ToString());
 
             Debug.WriteLine(string.Format("{0} - {1}", CrossGeofence.Id, result.ToString()));
+            if(locationController.checkInPage != null)
+            {
+                Debug.WriteLine("THIS FAR");
+                locationController.checkInPage.UpdateInterface();
+            }
+           
+            // todo: update UI
         }
 
         // Note that you must call CrossGeofence.GeofenceListener.OnAppStarted() from your app when you want this method to run.

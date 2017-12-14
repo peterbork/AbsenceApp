@@ -67,9 +67,15 @@ namespace AbsenceApp.Pages {
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(ealLocation, Distance.FromMeters(250)));
         }
 
+        private void CheckInId_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateInterface();
+            Debug.WriteLine("activated");
+        }
+
         async void ToggleAutomaticCheckin(object sender, EventArgs e) {
             if (automaticOn.IsToggled) {
-                if (await locationController.StartListener()) {
+                if (await locationController.StartListener(this)) {
                     Settings.CheckinEnabled = true;
                 }
             } else {
@@ -105,6 +111,7 @@ namespace AbsenceApp.Pages {
         }
 
         public void UpdateInterface() {
+            Debug.WriteLine("YESYES");
             automaticOn.IsToggled = Settings.CheckinEnabled;
             if (Settings.CheckedInId != 0) {
                 StatusText.Text = "Checked in since " + currentUser.latest_checkin.ToString("MM/dd H:mm");

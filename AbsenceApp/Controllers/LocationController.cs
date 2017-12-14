@@ -18,6 +18,7 @@ namespace AbsenceApp.Controllers {
     public sealed class LocationController {
         private static readonly LocationController instance = new LocationController();
         CrossGeolocator crossGeolocator = new CrossGeolocator();
+        public Pages.CheckInPage checkInPage;
 
         AttendanceController attendanceController;
 
@@ -35,10 +36,10 @@ namespace AbsenceApp.Controllers {
             }
         }
 
-        public async Task<bool> StartListener() {
+        public async Task<bool> StartListener(Pages.CheckInPage page) {
             if (await HasPermission()) {
                 CrossGeofence.Initialize<CrossGeofenceListener>();
-
+                this.checkInPage = page;
                 if (!CrossGeofence.Current.IsMonitoring) {
                     GeofenceCircularRegion region = new GeofenceCircularRegion("EAL", Settings.SchoolLocationLat, Settings.SchoolLocationLng, Settings.AllowedDistance);
 
