@@ -92,7 +92,7 @@ namespace AbsenceApp.Controllers {
                     return position;
                 }
                 
-                position.Timestamp = DateTime.Now;
+                position.Timestamp = DateTime.Now.ToUniversalTime();
 
             } catch (Exception ex) {
                 //Display error as we have timed out or can't get location.
@@ -125,7 +125,7 @@ namespace AbsenceApp.Controllers {
                 return;
             }
 
-            var diff = (currentPosition.Timestamp - DateTime.Now).TotalMinutes;
+            var diff = (currentPosition.Timestamp - DateTime.Now.ToUniversalTime()).TotalMinutes;
             Debug.WriteLine("Diff: " + diff);
 
             // Check if obtained position is recent

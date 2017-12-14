@@ -34,7 +34,7 @@ namespace AbsenceApp.iOS {
             Console.WriteLine("App is becoming active");
 
             // Check if the latest check in is out of date
-            if (currentUser.latest_checkin.Date != DateTime.Now.Date || currentUser.latest_checkin.Month != DateTime.Now.Month) {
+            if (currentUser.latest_checkin.Date != DateTime.Now.ToUniversalTime().Date || currentUser.latest_checkin.Month != DateTime.Now.Month) {
                 Console.WriteLine("Login outdated");
                 Settings.CheckedInId = 0;
             }

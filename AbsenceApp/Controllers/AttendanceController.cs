@@ -49,7 +49,7 @@ namespace AbsenceApp.Controllers {
 
         public async Task<bool> CheckIn(double lat, double lng, DateTime timestamp) {
             var jsonSettings = new JsonSerializerSettings();
-            jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
+            jsonSettings.DateFormatString = "yyy-MM-dd HH:mm:ss";
 
             var data = new { started_at = timestamp, latitude = lat, longitude = lng, user_id = currentUser.id };
 
@@ -74,9 +74,9 @@ namespace AbsenceApp.Controllers {
 
         public async Task<bool> CheckOut() {
             var jsonSettings = new JsonSerializerSettings();
-            jsonSettings.DateFormatString = "yyy-MM-dd hh:mm:ss";
+            jsonSettings.DateFormatString = "yyy-MM-dd HH:mm:ss";
 
-            var data = new { attendance_id = Settings.CheckedInId, user_id = currentUser.id, ended_at = DateTime.Now };
+            var data = new { attendance_id = Settings.CheckedInId, user_id = currentUser.id, ended_at = DateTime.Now.ToUniversalTime() };
 
             var json = JsonConvert.SerializeObject(data, jsonSettings);
             var payload = new StringContent(json, Encoding.UTF8, "application/json");

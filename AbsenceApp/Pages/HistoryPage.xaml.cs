@@ -26,7 +26,7 @@ namespace AbsenceApp.Pages {
             }
 
             DateTime LanuchDate = new DateTime(2017, 1, 1); // todo: change to lanuch date
-            DateTime currentDate = DateTime.Now;
+            DateTime currentDate = DateTime.Now.ToUniversalTime();
 
             string[] months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             List<string> monthArray = new List<string>();
@@ -48,10 +48,10 @@ namespace AbsenceApp.Pages {
             YearPicker.SelectedIndex = 0;
 
             MonthPicker.ItemsSource = monthArray;
-            MonthPicker.SelectedIndex = DateTime.Now.Month - 1;
+            MonthPicker.SelectedIndex = DateTime.Now.ToUniversalTime().Month - 1;
 
-            int SelectedMonth = DateTime.Now.Month;
-            int SelectedYear = DateTime.Now.Year;
+            int SelectedMonth = DateTime.Now.ToUniversalTime().Month;
+            int SelectedYear = DateTime.Now.ToUniversalTime().Year;
             FindAbsence(SelectedMonth, SelectedYear);
            
         }
