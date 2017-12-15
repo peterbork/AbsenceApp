@@ -10,6 +10,8 @@ namespace AbsenceApp.Controllers {
 
         private string baseUrl = Settings.ApiUrl;
 
+        // IMPORTANT! The datetimes are fixed in order to return true in the HasClasses methods. This is done to allow testing outside of classes when debugging.
+
         public DateTime classesStart = new DateTime(2018, 01, 24, 07, 15, 00);
         public DateTime classesEnd = new DateTime(2018, 01, 24, 08, 00, 00);
         public DateTime now = new DateTime(2018, 01, 24, 07, 30, 00);
